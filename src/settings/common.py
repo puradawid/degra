@@ -38,13 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    ##### Project apps #####
-    #'apps.home',
-
     ##### Third party apps #####
     'south',
-    ##### JENKINS #####
-    'django_jenkins',
 )
 
 ## HERE ADD OUR REAL APPS ##
@@ -53,12 +48,6 @@ PROJECT_APPS = (
 )
 
 INSTALLED_APPS += PROJECT_APPS
-
-JENKINS_TASKS = (
-        'django_jenkins.tasks.with_coverage',
-        'django_jenkins.tasks.run_pep8',
-        'django_jenkins.tasks.run_pyflakes',
-)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
