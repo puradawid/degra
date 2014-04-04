@@ -37,9 +37,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'apps.group',
+    'apps.account',
+    'apps.schedule',
+    'apps.note',
+    'apps.post',
 
     ##### Third party apps #####
-    'south',
+    #'south',
 )
 
 ## HERE ADD OUR REAL APPS ##
