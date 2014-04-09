@@ -39,3 +39,6 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course)
     teacher = models.ForeignKey(Teacher)
     group = models.ForeignKey(Group)
+    
+    def __unicode__(self):
+        return self.course + " " + self.group.name
