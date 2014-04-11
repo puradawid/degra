@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Odzysykiwanie hasla{% endblock %}
+
+{% block content %}
+
+<form method="post"> {% csrf_token %}
+	<fieldset>
+		<legend>
+			Potwierdzenie resetowania hasla
+		</legend>
+		
+		{% if invalid %}{% url "password_reset_recover" as recovery_url %}
+				<div class="alert alert-dismissable alert-{{ type }}">
+					<p>Link resetowania hasla jest nieprawidlowy. Mozesz <a href="{{ recovery_url }}">uzyskac nowy</a>.</p>
+				</div>
+		{% else %}
+			<!-- Display form fiels -->
+			{% for field in form %}
+				<p><label for="{{ field.label_id }}">{{ field.label }}</label> {{ field }}</p>
+				<!-- Display field errors (like empty field) -->
+				{% if field.errors %}
+					{% for error in field.errors %}
+						<p>{{ error | escape }}</p>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		
+		<button type="submit">
+			Zatwierdz
+		</button>
+		{% endif %}
+	</fieldset>
+</form>
+
+{% endblock %}

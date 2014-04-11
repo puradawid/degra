@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Odzysykiwanie hasla{% endblock %}
+
+{% block content %}
+
+<form method="post"> {% csrf_token %}
+	<!-- Display form errors if exist -->
+	{% if form.non_field_errors %}
+		{% for message in form.non_field_errors %}
+			<p>
+				{{ message | escape }}
+			</p>
+		{% endfor %}
+	{% endif %}
+
+	<fieldset>
+		<legend>
+			Odzyskiwanie hasa
+		</legend>
+		
+		<!-- Display form fiels -->
+		{% for field in form %}
+			<p><label for="{{ field.label_id }}">{{ field.label }}</label> {{ field }}</p>
+			<!-- Display field errors (like empty field) -->
+			{% if field.errors %}
+				{% for error in field.errors %}
+					<p>{{ error | escape }}</p>
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+		
+		<button type="submit">
+			Zatwierz
+		</button>
+
+	</fieldset>
+</form>
+
+{% endblock %}

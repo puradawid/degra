@@ -46,6 +46,7 @@ INSTALLED_APPS = (
 
     ##### Third party apps #####
     #'south',
+    'password_reset'
 )
 
 ## HERE ADD OUR REAL APPS ##
@@ -103,3 +104,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 TEMPLATE_DIRS = (
      os.path.join(BASE_DIR, 'templates')
 )
+
+# E-Mail configuration
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'planyzajec2014@gmail.com'
+EMAIL_HOST_PASSWORD = 'degra2.0'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER

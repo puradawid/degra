@@ -10,4 +10,5 @@ urlpatterns = patterns('',
 
     url(r'^$', include('apps.home.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^password/', include('password_reset.urls')),
 )
