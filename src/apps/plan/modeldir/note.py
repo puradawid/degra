@@ -7,5 +7,8 @@ class Note(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User)
     
+    class Meta:
+        app_label = "plan"
+    
     def __unicode__(self):
         return self.title

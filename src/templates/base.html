@@ -1,1 +1,14 @@
-{% block content %}{% endblock %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+		<title>{% block title %}{% endblock %} | Degra</title>
+	</head>
+
+	<body>
+		{% block content %}{% endblock %}
+	</body>
+	
+</html>

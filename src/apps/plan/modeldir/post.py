@@ -5,5 +5,8 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
     
+    class Meta:
+        app_label = "plan"
+    
     def __unicode__(self):
         return self.name

@@ -1,21 +1,8 @@
 from django.db import models
-from apps.group.models import Group
+from course import Course
+from teacher import Teacher
+from group import Group
 
-class Course(models.Model):
-    name = models.CharField(max_length = 100)
-    
-    def __unicode__(self):
-        return self.name
-
-class Teacher(models.Model):
-    name = models.CharField(max_length = 35)
-    surname = models.CharField(max_length = 35)
-    degree = models.CharField(max_length = 35)
-    email = models.CharField(max_length = 255)
-    
-    def __unicode__(self):
-        return self.name + self.surname
-    
 class Lesson(models.Model):
     TYPE_CHOICES = (
         ('PS', 'Pracownia specjalistyczna'),
@@ -40,5 +27,8 @@ class Lesson(models.Model):
     teacher = models.ForeignKey(Teacher)
     group = models.ForeignKey(Group)
     
+    class Meta:
+        app_label = "plan"
+
     def __unicode__(self):
         return self.course + " " + self.group.name

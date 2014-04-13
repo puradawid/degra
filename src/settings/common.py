@@ -37,12 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    'apps.group',
-    'apps.account',
-    'apps.schedule',
-    'apps.note',
-    'apps.post',
 
     ##### Third party apps #####
     #'south',
@@ -51,7 +45,8 @@ INSTALLED_APPS = (
 
 ## HERE ADD OUR REAL APPS ##
 PROJECT_APPS = (
-    'apps.home',
+    'apps.plan',
+    'apps.accounts',
 )
 
 INSTALLED_APPS += PROJECT_APPS
@@ -99,10 +94,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = (
+    STATIC_PATH,
+)
+
+TEMPLATE_PATH = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATE_DIRS = (
-     os.path.join(BASE_DIR, 'templates')
+     TEMPLATE_PATH,
 )
 
 # E-Mail configuration

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Plan zajęć{% endblock %}
+
+{% block content %}
+
+	{% for lesson in lesson_list %}
+		{{ lesson.start_hour }}
+	{% endfor %}
+
+{% endblock %}
