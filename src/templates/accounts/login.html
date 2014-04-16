@@ -1,0 +1,21 @@
+{% extends "base.html"%}
+{% block title %} - logowanie{% endblock %}
+{% block content%}
+
+    <form method="post" action=".">{% csrf_token %}
+	<!-- Display form errors if exist -->
+	{% if form.non_field_errors %}
+		{% for message in form.non_field_errors %}
+			<p>
+				{{ message | escape }}
+			</p>
+		{% endfor %}
+	{% endif %}
+    <div style="text-align:left";>{{ form.as_p }}</div>
+    <input type="hidden" name="next" value="/" />
+    <input type="submit" value="Zaloguj"/>
+  </form>
+<a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
+{% endblock %}
+{% block footer %}
+{% endblock %}
