@@ -18,6 +18,7 @@ class ImportStudentsView(FormView):
         handle_uploaded_file(uploaded_file)
         with open('uploads/' + uploaded_file.name) as csvfile:
             import_students_from_csv(csvfile)
+        remove_uploaded_file(uploaded_file)
         return super(ImportStudentsView, self).form_valid(form)
 
 def handle_uploaded_file(uploaded_file):
