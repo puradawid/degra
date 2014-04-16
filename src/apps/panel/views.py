@@ -4,6 +4,7 @@
 from django.views.generic import FormView
 from django.contrib.auth.models import User
 from apps.plan.models import Group
+from apps.accounts.models import Account
 from apps.panel.forms import ImportCSVForm
 import csv
 import os
@@ -49,3 +50,11 @@ def import_students_from_csv(csvfile):
             password = User.objects.make_random_password()
             user.set_password(password)
             user.save()
+            account = Account.objects.create(user=user)
+            try:
+                group = Group.objects.get(name=row['Grupa'])
+                account.groups.add(group)
+            except Exception:
+                pass # TODO: Handle exception (no group)
+                
+            account.save()
