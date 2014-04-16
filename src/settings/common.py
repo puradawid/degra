@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 PROJECT_APPS = (
     'apps.plan',
     'apps.accounts',
+    'apps.panel',
 )
 
 INSTALLED_APPS += PROJECT_APPS
