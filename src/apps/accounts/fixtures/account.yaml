@@ -1,0 +1,13 @@
+- model: auth.user
+  pk: 1
+  fields:
+    username: "wi0000"
+    password: "5f4dcc3b5aa765d61d8327deb882cf99"
+    email: "wi0000@example.com" 
+
+- model: accounts.account
+  pk: 1
+  fields:
+     user: 1
+     groups: [1,2,3]
+         

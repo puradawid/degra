@@ -1,0 +1,56 @@
+- model: plan.group 
+  pk: 1
+  fields:
+    name: 'CW1'
+    type: 'CW'
+
+- model: plan.group
+  pk: 2
+  fields:
+    name: 'WYK1'
+    type: 'WYK'
+
+- model: plan.group
+  pk: 3
+  fields:
+    name: 'LAB1'
+    type: 'LAB'
+
+- model: plan.note
+  pk: 1
+  fields:
+    title: 'This is my first test note'
+    content: 'Well i want to create a new note so i am doing it right now' 
+    author: 1
+    created: "2014-04-21 12:00+02:00"
+
+- model: plan.post
+  pk: 1
+  fields:
+    title: 'First post here!'
+    content: 'Today all classes are dissmised! (whatever it means )'
+    created: '2014-04-21 12:00+02:00'
+
+- model: plan.course
+  pk: 1
+  fields:
+    name: 'Technical innovations'
+
+- model: plan.teacher
+  pk: 1
+  fields:
+    name: 'Antonio'
+    surname: 'Facaldo'
+    degree: 'PhD'
+    email: 'antonio.facaldo@example.org'
+
+- model: plan.lesson
+  pk: 1
+  fields:
+    start_hour: 11
+    end_hour: 12
+    day_of_week: 1
+    type: 'PS'
+    course: 1
+    teacher: 1
+    group: 1
