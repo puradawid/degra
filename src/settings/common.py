@@ -61,6 +61,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',                          
+    'django.contrib.messages.context_processors.messages',
+)
+
 ROOT_URLCONF = 'degra.urls'
 
 WSGI_APPLICATION = 'degra.wsgi.application'

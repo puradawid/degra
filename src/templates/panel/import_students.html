@@ -13,6 +13,14 @@
 			</p>
 		{% endfor %}
 	{% endif %}
+	
+	{% if messages %}
+		{% for message in messages %}
+			<p>
+				{{ message | escape }}
+			</p>
+		{% endfor %}
+	{% endif %}
 
 	<fieldset>
 		<legend>
