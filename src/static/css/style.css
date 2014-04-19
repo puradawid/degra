@@ -1,0 +1,217 @@
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+#rejestracja {
+
+  padding: 20px 15px;
+  text-align: center;
+  width: 480px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #eee;
+  border:2px solid;
+  border-radius:10px;
+  border-color: #999;
+
+}
+
+#plan{
+	 padding: 20px 15px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #eee;
+  border:2px solid;
+  border-radius:10px;
+  border-color: #999;
+  width: 1000px;
+}
+
+/*rozklad*/
+
+.rozklad{
+	display: block;
+	position: relative;
+	background-color: #eee;
+	background-color: #eee;
+height: 700px;
+}
+
+.dzien{
+	float: left;
+	display: block;;
+	width: 192px;
+	min-height: 1px;
+	position: absolute;
+	background-image: url("../img/grid-line.png");
+	background-repeat: repeat-y;
+	height: 700px;
+}
+.pon{
+left: 1px;
+}
+.wt{
+left: 193px;
+}
+.sr{
+left: 385px;
+}
+.czw{
+left: 577px;
+}
+.pt{
+left: 769px;
+}
+.zajecia{
+	display: block;
+	position: absolute;
+	width: 190px;
+	margin: 1px 1px 1px 1px;
+	line-height: 1;
+}
+
+.wyklad{
+	background-color: #d7ffaa;
+	border:2px solid;
+  border-radius:10px;
+  border-color: #b8e288;
+}
+.cwiczenia{
+	background-color: #ffffae;
+	border:2px solid;
+  border-radius:10px;
+  border-color: #e6e653;
+}
+.psy {
+	background-color: #9bc4ff;
+	border:2px solid;
+  border-radius:10px;
+  border-color: #6699cc;
+}
+.lab {
+	background-color: #ffcaca;
+	border:2px solid;
+  border-radius:10px;
+  border-color: #ff9999;
+}
+.czas-1h{
+	height: 50px;
+}
+.czas-2h{
+	height: 100px;
+}
+.czas-3h{
+	height: 150px;
+}
+.czas-4h{
+	height: 160px;
+}
+.od-8{
+	top: 60px;
+}
+.od-9{
+	top: 110px;
+}
+.od-10{
+	top: 160px;
+}
+.od-11{
+	top: 210px;
+}
+.od-12{
+	top: 260px;
+}
+.od-13{
+	top: 310px;
+}
+
+.od-14{
+	top: 360px;
+}
+
+.od-15{
+	top: 410px;
+}
+
+.od-16{
+	top: 460px;
+}
+
+
+.sala{
+	margin-left: 5px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.edytuj_przedmiot{
+	margin-right: 5px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.edytuj_przedmiot a{
+	color: #000;
+
+}
+.rodzaj{
+	width: 190px;
+display: block;
+
+}
+
+
+.degra-frame {
+
+  padding: 20px 15px;
+  text-align: center;
+  width: 480px;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #eee;
+  border:2px solid;
+  border-radius:10px;
+  border-color: #999;
+  margin-bottom: 20px;
+
+}
+.plan-mobile{
+	padding: 20px 15px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: #eee;
+  border:2px solid;
+  border-radius:10px;
+  border-color: #999;
+  width: 380px;
+  height: 700px;
+}
+.dzien-mobile{
+	/*float: left;*/
+	display: block;
+	width: 345px;
+	min-height: 1px;
+	position: absolute;
+}
+.zajecia-mobile{
+	display: block;
+	position: absolute;
+	width: inherit;
+}
+.edytuj_przedmiot-mobile{
+	margin-right: 30px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.rodzaj-mobile{
+	width: inherit;
+display: block;
+line-height: 0.8;
+}
