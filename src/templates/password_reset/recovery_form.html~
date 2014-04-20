@@ -21,7 +21,7 @@
 		
 		<!-- Display form fiels -->
 		{% for field in form %}
-			<p>{{ field | add_class:"form-control" | append_attr:"placeholder:Nazwa użytkownika lub email"}}</p>
+			<p>{{ field | add_class:"form-control | append_attr:"placeholder:Nazwa użytkownika lub email"}}</p>
 			<!-- Display field errors (like empty field) -->
 			{% if field.errors %}
 				{% for error in field.errors %}

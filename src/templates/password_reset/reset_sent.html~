@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="degra-frame">
-<h1>Wysłano email</h1>
-<p>Na adres {{ email }} została wysłana wiadomość z linkiem resetujacym hasło</p>
+<h1>Wyslano email</h1>
+<p>Na adres {{ email }} zostala wyslana wiadomosc z linkiem resetujacym haslo</p>
 </div>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}Odzysykiwanie hasła{% endblock %}
 
 {% block content %}
-<div class="degra-frame">
+
 <form method="post"> {% csrf_token %}
 	<fieldset>
 		<legend>
@@ -32,5 +32,5 @@
 		{% endif %}
 	</fieldset>
 </form>
-</div>
+
 {% endblock %}
