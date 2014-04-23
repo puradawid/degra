@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
-{% block title %}Odzysykiwanie hasla{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Odzysykiwanie hasła{% endblock %}
 
 {% block content %}
-
+<div class="degra-frame">
 <form method="post"> {% csrf_token %}
 	<!-- Display form errors if exist -->
 	{% if form.non_field_errors %}
@@ -16,25 +16,25 @@
 
 	<fieldset>
 		<legend>
-			Odzyskiwanie hasa
+			Odzyskiwanie hasła
 		</legend>
 		
 		<!-- Display form fiels -->
 		{% for field in form %}
-			<p><label for="{{ field.label_id }}">{{ field.label }}</label> {{ field }}</p>
+			<p>{{ field | add_class:"form-control" | append_attr:"placeholder:Nazwa użytkownika lub email"}}</p>
 			<!-- Display field errors (like empty field) -->
 			{% if field.errors %}
 				{% for error in field.errors %}
-					<p>{{ error | escape }}</p>
+					<div class="alert alert-warning"><strong>{{ error | escape }}</strong></div>
 				{% endfor %}
 			{% endif %}
 		{% endfor %}
 		
-		<button type="submit">
-			Zatwierz
+		<button type="submit" class="btn btn-success">
+			Zatwierdź
 		</button>
 
 	</fieldset>
 </form>
-
+</div>
 {% endblock %}

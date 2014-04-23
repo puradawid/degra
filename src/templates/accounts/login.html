@@ -1,21 +1,70 @@
 {% extends "base.html"%}
+
+{% load widget_tweaks %}
+
 {% block title %} - logowanie{% endblock %}
 {% block content%}
 
-    <form method="post" action=".">{% csrf_token %}
-	<!-- Display form errors if exist -->
-	{% if form.non_field_errors %}
-		{% for message in form.non_field_errors %}
-			<p>
-				{{ message | escape }}
-			</p>
-		{% endfor %}
-	{% endif %}
-    <div style="text-align:left";>{{ form.as_p }}</div>
-    <input type="hidden" name="next" value="/" />
-    <input type="submit" value="Zaloguj"/>
-  </form>
+
+<!-- to jest do zrobienia -->
+ <div class="container">
+
+      <div class="degra-frame">
+        <h1>Degra 2.0</h1>
+		<legend>Podaj numer indeksu, aby sprawdzić plan</legend>
+		<form role="form">
+			<input type="text" class="form-control" id="inputIndeks" placeholder="Podaj indeks"/>
+			<br/>
+			<button type="button" class="btn btn-primary" onclick="location.href='plan.html'">Idź</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logowanie">Zaloguj</button>
+			<hr>
+		</form>
+			<p>Jeżeli chcesz personalizować swój plan musisz się <button type="button" class="btn btn-link" onclick="location.href='rejestracja.html'">zarejestrować</button></p>
+      </div>
+    </div><!-- /.container -->
+
+
+
+				<form role="form" method="post" action=".">{% csrf_token %}
+					<!-- Display form errors if exist -->
+					{% if form.errors %}
+					    {% for field in form %}
+						{% for error in field.errors %}
+						    <div class="alert alert-warning">
+							<strong>{{ error|escape }}</strong>
+						    </div>
+						{% endfor %}
+					    {% endfor %}
+					    {% for error in form.non_field_errors %}
+						<div class="alert alert-warning">
+						    <strong>{{ error|escape }}</strong>
+						</div>
+					    {% endfor %}
+					{% endif %}
+<!--LOGOWANIE-->
+	<div class="modal fade" id="logowanie" tabindex="-1" role="dialog" aria-labelledby="logowanieLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Logowanie</h4>
+				</div>
+
+					<div class="modal-body">
+						<div>{{ form.username | add_class:"form-control" | append_attr:"placeholder:login"}}</div>
+						<br/>
+						<div>{{ form.password | add_class:"form-control" | append_attr:"placeholder:hasło"}}</div>			
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="next" value="/" />
+						<input type="submit" value="Zaloguj" class="btn btn-success" />
+						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='rejestracja.html'">Zarejestruj</button>
 <a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
-{% endblock %}
-{% block footer %}
+					</div>
+				
+			</div>
+		</div>
+	</div>
+
+
 {% endblock %}

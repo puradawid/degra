@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
-
-{% block title %}Odzysykiwanie hasla{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Odzysykiwanie hasła{% endblock %}
 
 {% block content %}
-
+<div class="degra-frame">
 <form method="post"> {% csrf_token %}
 	<fieldset>
 		<legend>
-			Potwierdzenie resetowania hasla
+			Potwierdzenie resetowania hasła
 		</legend>
 		
 		{% if invalid %}{% url "password_reset_recover" as recovery_url %}
 				<div class="alert alert-dismissable alert-{{ type }}">
-					<p>Link resetowania hasla jest nieprawidlowy. Mozesz <a href="{{ recovery_url }}">uzyskac nowy</a>.</p>
+					<p>Link resetowania hasła jest nieprawidlowy. Możesz <a href="{{ recovery_url }}">uzyskać nowy</a>.</p>
 				</div>
 		{% else %}
 			<!-- Display form fiels -->
@@ -21,16 +21,16 @@
 				<!-- Display field errors (like empty field) -->
 				{% if field.errors %}
 					{% for error in field.errors %}
-						<p>{{ error | escape }}</p>
+						<div class="alert alert-warning"><strong>{{ error | escape }}</strong></div>
 					{% endfor %}
 				{% endif %}
 			{% endfor %}
 		
-		<button type="submit">
-			Zatwierdz
+		<button class="btn btn-primary" type="submit">
+			Zatwierdź
 		</button>
 		{% endif %}
 	</fieldset>
 </form>
-
+</div>
 {% endblock %}

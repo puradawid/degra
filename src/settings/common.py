@@ -39,8 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     ##### Third party apps #####
+    'widget_tweaks',
     #'south',
-    'password_reset'
+    'password_reset',
 )
 
 ## HERE ADD OUR REAL APPS ##
