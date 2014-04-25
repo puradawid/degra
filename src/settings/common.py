@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 PROJECT_APPS = (
     'apps.plan',
     'apps.accounts',
+    'apps.panel',
 )
 
 INSTALLED_APPS += PROJECT_APPS
@@ -59,6 +60,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',                          
+    'django.contrib.messages.context_processors.messages',
 )
 
 ROOT_URLCONF = 'degra.urls'
