@@ -9,6 +9,10 @@ from apps.panel.forms import ImportCSVForm
 from django.contrib import messages
 import csv
 import os
+from django.views.generic.base import TemplateView
+
+class PanelView(TemplateView):
+    template_name = 'panel/panel.html'
 
 class ImportStudentsView(FormView):
     template_name = 'panel/import_students.html'

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel dziekanatu{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-6 col-lg-offset-3">
+			<div class="degra-frame">
+				<legend><h1>Panel dziekanatu</h1></legend>
+				<p><a href="{% url 'import_students' %}" class="btn btn-primary form-control">Importowanie listy studentów</a></p>
+				<p><a href="#" class="btn btn-primary form-control">Importowanie listy grup</a></p>
+				<p><a href="#" class="btn btn-primary form-control">Zarządzanie studentami</a></p>
+				<p><a href="#" class="btn btn-primary form-control">Zarządzanie grupami</a></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
