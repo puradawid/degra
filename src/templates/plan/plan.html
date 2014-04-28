@@ -5,7 +5,21 @@
 {% block content %}
 
 	{% for lesson in lesson_list %}
-		{{ lesson.start_hour }}
+		Lesson id: {{ lesson.pk }}<br/>
+		&emsp;Start hour/end hour: {{ lesson.start_hour }}/{{ lesson.end_hour }}<br/>
+		&emsp;Day of week: {{ lesson.day_of_week }}<br/>
+		&emsp;Type: {{ lesson.type }}<br/>
+		&emsp;Course: {{ lesson.course }}<br/>
+		&emsp;Teacher: {{ lesson.teacher }}<br/>
+		&emsp;Group: {{ lesson.group }}<br/>
+		
+		&emsp;Notes:<br/>
+		{% for note in lesson.notes.all %}
+			&emsp;&emsp;Note id: {{ note.pk }}<br/>
+			&emsp;&emsp;&emsp;Content: {{ note.content }}<br/>
+			&emsp;&emsp;&emsp;Title: {{ note.title }}<br/>
+			&emsp;&emsp;&emsp;Created: {{ note.created }}<br/><br/>
+		{% endfor %}
 	{% endfor %}
 
 {% endblock %}
