@@ -1,11 +1,10 @@
-
-body {
-  padding-top: 50px;
-}
-
 .position-top-4 {
 	position: relative;
 	top: 4px;
+}
+
+.navbar {
+	border-radius: 0px;
 }
 
 .starter-template {

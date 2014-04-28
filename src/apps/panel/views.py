@@ -10,6 +10,7 @@ from django.contrib import messages
 import csv
 import os
 from django.views.generic.base import TemplateView
+import xml.etree.cElementTree as etree
 
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
@@ -26,9 +27,20 @@ class ImportStudentsView(FormView):
             result = import_students_from_csv(csvfile)
         remove_uploaded_file(uploaded_file)
         messages.success(self.request, 'Zaimportowano ' + str(result['count']) + ' studentów', fail_silently=True)
-        print result['errors']
-        messages.error(self.request, ','.join(result['errors']), fail_silently=True)
+        # print result['errors'] TODO: Log errors or sth
+        # messages.error(self.request, ','.join(result['errors']), fail_silently=True)
         return super(ImportStudentsView, self).form_valid(form)
+
+class ImportGroupsView(TemplateView):
+    template_name = 'panel/import_groups.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(ImportGroupsView, self).get_context_data(**kwargs)
+        with open('grupy.xml') as xmlfile:
+            xmldata = xmlfile.read()
+            count = import_groups_from_xml(xmldata)
+            context['count'] = count
+        return context
 
 def handle_uploaded_file(uploaded_file):
     """
@@ -70,3 +82,20 @@ def import_students_from_csv(csvfile):
             account.save()
             result['count'] += 1
     return result
+
+def import_groups_from_xml(xmldata):
+    """
+        Import groups from xmldata (file or webservice). Accepts string with xml data as parameter. Return number of imported groups.
+        :param xmldata: string
+        :returns count: int
+    """
+    count = 0
+    xml_tree = etree.XML(xmldata)
+    for group in xml_tree.iter('grupa'):
+        name = group.find('nazwa').text
+        type = group.find('typ').text
+        g = Group.objects.create(name=name, type=type)
+        g.save()
+        count += 1
+        
+    return count

@@ -6,16 +6,14 @@
 
 {% load widget_tweaks %}
 
-<div class="container">
 	<div class="row">
 		<div class="col-lg-6 col-lg-offset-3">
-			<div class="degra-frame">
+			<div class="well bs-compontent">
 				<form class="form-horizontal" enctype="multipart/form-data" method="post" >
 					<fieldset>
 						<legend>
 							<h1>Importowanie listy studentów</h1>
-						</legend>
-						{% csrf_token %} <!-- Display form errors if exist -->
+						</legend> {% csrf_token %} <!-- Display form errors if exist -->
 						{% if form.non_field_errors %}
 						{% for message in form.non_field_errors %}
 						<p>
@@ -63,6 +61,5 @@
 			</div>
 		</div>
 	</div>
-</div>
 
 {% endblock %}
