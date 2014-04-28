@@ -11,8 +11,8 @@
 			<div class="well bs-compontent">
 				<form class="form-horizontal" enctype="multipart/form-data" method="post" >
 					<fieldset>
-						<legend>
-							<h1>Importowanie listy studentów</h1>
+						<legend class="text-center">
+							<h2>Importowanie listy studentów</h2>
 						</legend> {% csrf_token %} <!-- Display form errors if exist -->
 						{% if form.non_field_errors %}
 						{% for message in form.non_field_errors %}

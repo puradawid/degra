@@ -3,38 +3,49 @@
 {% block title %}Odzysykiwanie hasła{% endblock %}
 
 {% block content %}
-<div class="degra-frame">
-<form method="post"> {% csrf_token %}
-	<!-- Display form errors if exist -->
-	{% if form.non_field_errors %}
-		{% for message in form.non_field_errors %}
-			<p>
-				{{ message | escape }}
-			</p>
-		{% endfor %}
-	{% endif %}
-
-	<fieldset>
-		<legend>
-			Odzyskiwanie hasła
-		</legend>
-		
-		<!-- Display form fiels -->
-		{% for field in form %}
-			<p>{{ field | add_class:"form-control" | append_attr:"placeholder:Nazwa użytkownika lub email"}}</p>
-			<!-- Display field errors (like empty field) -->
-			{% if field.errors %}
-				{% for error in field.errors %}
-					<div class="alert alert-warning"><strong>{{ error | escape }}</strong></div>
-				{% endfor %}
-			{% endif %}
-		{% endfor %}
-		
-		<button type="submit" class="btn btn-success">
-			Zatwierdź
-		</button>
-
-	</fieldset>
-</form>
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="well">
+			<form method="post" class="form-horizontal"> {% csrf_token %}
+				<!-- Display form errors if exist -->
+				{% if form.non_field_errors %}
+					{% for message in form.non_field_errors %}
+						<p>
+							{{ message | escape }}
+						</p>
+					{% endfor %}
+				{% endif %}
+			
+				<fieldset>
+					<legend class="text-center">
+						<h2>Odzyskiwanie hasła</h2>
+					</legend>
+					
+					<!-- Display form fiels -->
+					{% for field in form %}
+						<div class="form-group">
+							<div class="col-lg-12">
+								{{ field | add_class:"form-control" | append_attr:"placeholder:Nazwa użytkownika lub email"}}
+							</div>
+						</div>
+						
+						<!-- Display field errors (like empty field) -->
+						{% if field.errors %}
+							{% for error in field.errors %}
+								<div class="alert alert-warning"><strong>{{ error | escape }}</strong></div>
+							{% endfor %}
+						{% endif %}
+					{% endfor %}
+					<div class="form-group">
+							<div class="col-lg-12 text-center">
+								<button type="submit" class="btn btn-success">
+									Zatwierdź
+								</button>
+							</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
 </div>
 {% endblock %}
