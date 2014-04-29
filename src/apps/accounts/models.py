@@ -12,7 +12,7 @@ class UserToLesson(models.Model):
     notes = models.ManyToManyField(Note)
 
 class Account(models.Model):
-    index_number = models.IntegerField(primary_key=True)
+    index_number = models.CharField(primary_key=True, max_length=7)
     user = models.OneToOneField(User, related_name='profile')
     groups = models.ManyToManyField(Group)
     
