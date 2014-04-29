@@ -31,4 +31,4 @@ class Lesson(models.Model):
         app_label = "plan"
 
     def __unicode__(self):
-        return self.course + " " + self.group.name
+        return str(self.course) + " " + self.group.name
