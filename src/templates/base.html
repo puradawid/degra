@@ -31,7 +31,7 @@
 	    <li class="logowanie.html"><a href="{% url "login" %}">Zaloguj</a></li>
 	    <li><a href="rejestracja.html">Zarejestruj</a></li>
 	    {% else %}
-	    <li style="float: right;"><a href="{% url "logout" %}">Wyloguj {{user.get_index_number}}</a></li>
+	    <li style="float: right;"><a href="{% url "logout" %}">Wyloguj {{user.profile.index_number}}</a></li>
 	    {% endif %}
 	    <li><a href="plan.html">Plan Zajęć</a></li>
 	    <li><a href="dziekanat.html">Panel Dziekanatu</a></li>
@@ -40,7 +40,6 @@
 	</div>
 </div>
 <div class="container">
-
 		{% block content %}{% endblock %}
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

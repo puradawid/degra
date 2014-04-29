@@ -13,13 +13,15 @@
 		&emsp;Teacher: {{ lesson.teacher }}<br/>
 		&emsp;Group: {{ lesson.group }}<br/>
 		
-		&emsp;Notes:<br/>
-		{% for note in lesson.notes.all %}
-			&emsp;&emsp;Note id: {{ note.pk }}<br/>
-			&emsp;&emsp;&emsp;Content: {{ note.content }}<br/>
-			&emsp;&emsp;&emsp;Title: {{ note.title }}<br/>
-			&emsp;&emsp;&emsp;Created: {{ note.created }}<br/><br/>
-		{% endfor %}
+		{% if lesson.notes.all %}
+			&emsp;Notes:<br/>
+			{% for note in lesson.notes.all %}
+				&emsp;&emsp;Note id: {{ note.pk }}<br/>
+				&emsp;&emsp;&emsp;Content: {{ note.content }}<br/>
+				&emsp;&emsp;&emsp;Title: {{ note.title }}<br/>
+				&emsp;&emsp;&emsp;Created: {{ note.created }}<br/><br/>
+			{% endfor %}
+		{% endif %}
 	{% endfor %}
 
 {% endblock %}
