@@ -1,26 +1,70 @@
 - model: plan.group 
   pk: 1
   fields:
-    name: 'CW1'
+    number: 1
     type: 'CW'
+    name: 'CW1'
+    field_of_study: 'INF'
+    semestr: 1
 
 - model: plan.group
   pk: 2
   fields:
-    name: 'WYK1'
-    type: 'WYK'
+    number: 1
+    type: 'PS'
+    name: 'PS1'
+    field_of_study: 'INF'
+    semestr: 1
 
 - model: plan.group
   pk: 3
   fields:
-    name: 'LAB1'
+    number: 1
     type: 'LAB'
+    name: 'LAB1'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 4
+  fields:
+    number: 1
+    type: 'PS'
+    name: 'RW1'
+    field_of_study: 'INF'
+    semestr: 0
+
+- model: plan.group
+  pk: 5
+  fields:
+    number: 1
+    type: 'WYK'
+    name: 'RW-W1'
+    field_of_study: 'INF'
+    semestr: 0
+
+- model: plan.group
+  pk: 6
+  fields:
+    number: 1
+    type: 'PS'
+    name: 'PS1'
+    field_of_study: 'INF'
+    semestr: 2
 
 - model: plan.note
   pk: 1
   fields:
     title: 'This is my first test note'
     content: 'Well i want to create a new note so i am doing it right now' 
+    author: 1
+    created: "2014-04-21 12:00+02:00"
+
+- model: plan.note
+  pk: 2
+  fields:
+    title: 'My second note'
+    content: 'Dear diary, I wont pass' 
     author: 1
     created: "2014-04-21 12:00+02:00"
 
@@ -36,6 +80,16 @@
   fields:
     name: 'Technical innovations'
 
+- model: plan.course
+  pk: 2
+  fields:
+    name: 'Embedded systems'
+
+- model: plan.course
+  pk: 3
+  fields:
+    name: 'Rzeczywistość wirtualna'
+
 - model: plan.teacher
   pk: 1
   fields:
@@ -43,6 +97,14 @@
     surname: 'Facaldo'
     degree: 'PhD'
     email: 'antonio.facaldo@example.org'
+
+- model: plan.teacher
+  pk: 2
+  fields:
+    name: 'Antonio'
+    surname: 'Banderas'
+    degree: 'none'
+    email: 'antonio.banderas@example.org'
 
 - model: plan.lesson
   pk: 1
@@ -53,4 +115,88 @@
     type: 'PS'
     course: 1
     teacher: 1
+    group: 2
+
+- model: plan.lesson
+  pk: 2
+  fields:
+    start_hour: 1
+    end_hour: 2
+    day_of_week: 2
+    type: 'CW'
+    course: 1
+    teacher: 1
     group: 1
+
+- model: plan.lesson
+  pk: 3
+  fields:
+    start_hour: 1
+    end_hour: 2
+    day_of_week: 3
+    type: 'LAB'
+    course: 2
+    teacher: 2
+    group: 3
+
+- model: plan.lesson
+  pk: 4
+  fields:
+    start_hour: 1
+    end_hour: 2
+    day_of_week: 3
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 4
+
+- model: plan.lesson
+  pk: 5
+  fields:
+    start_hour: 1
+    end_hour: 2
+    day_of_week: 3
+    type: 'WYK'
+    course: 2
+    teacher: 2
+    group: 5
+
+- model: plan.lesson
+  pk: 6
+  fields:
+    start_hour: 1
+    end_hour: 2
+    day_of_week: 3
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 6
+
+
+- model: accounts.usertolesson
+  pk: 1
+  fields:
+    user: 1
+    lesson: 1
+    notes: [1]
+
+- model: accounts.usertolesson
+  pk: 2
+  fields:
+    user: 1
+    lesson: 2
+    notes: [2]
+
+- model: accounts.usertolesson
+  pk: 3
+  fields:
+    user: 1
+    lesson: 3
+    notes: []
+
+- model: accounts.usertolesson
+  pk: 4
+  fields:
+    user: 2
+    lesson: 2
+    notes: []

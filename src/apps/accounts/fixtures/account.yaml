@@ -3,11 +3,11 @@
   fields:
     username: "wi0000"
     password: "5f4dcc3b5aa765d61d8327deb882cf99"
-    email: "wi0000@example.com" 
+    email: "wi0000@example.com"
 
-- model: accounts.account
-  pk: 1
+- model: auth.user
+  pk: 2
   fields:
-     user: 1
-     groups: [1,2,3]
-         
+    username: "wi0001"
+    password: "207023ccb44feb4d7dadca005ce29a64"
+    email: "wi0001@example.com"
