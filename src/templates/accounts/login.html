@@ -22,7 +22,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-lg-12 text-center">
-							<button type="button" class="btn btn-primary" onclick="location.href='plan.html'">Idź</button>
+							<button type="submit" class="btn btn-primary">Idź</button>
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logowanie">Zaloguj</button>
 						</div>
 					</div>
@@ -30,8 +30,6 @@
 	     	 </div>
     	</div>
     </div>
-
-
 
 	<form method="post" action=".">{% csrf_token %}
 		<!-- Display form errors if exist -->
@@ -49,7 +47,7 @@
 			</div>
 		    {% endfor %}
 		{% endif %}
-<!--LOGOWANIE-->
+		<!--LOGOWANIE-->
 		<div class="modal fade" id="logowanie" tabindex="-1" role="dialog" aria-labelledby="logowanieLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -58,17 +56,16 @@
 						<h4 class="modal-title">Logowanie</h4>
 					</div>
 	
-						<div class="modal-body">
-							<div>{{ form.username | add_class:"form-control" | append_attr:"placeholder:login"}}</div>
-							<br/>
-							<div>{{ form.password | add_class:"form-control" | append_attr:"placeholder:hasło"}}</div>			
-						</div>
-						<div class="modal-footer">
-							<input type="hidden" name="next" value="/" />
-							<input type="submit" value="Zaloguj" class="btn btn-success" />
-							<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='rejestracja.html'">Zarejestruj</button>
-	<a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
-						</div>
+					<div class="modal-body">
+						<div>{{ form.username | add_class:"form-control" | append_attr:"placeholder:login"}}</div>
+						<br/>
+						<div>{{ form.password | add_class:"form-control" | append_attr:"placeholder:hasło"}}</div>			
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" name="next" value="/" />
+						<input type="submit" value="Zaloguj" class="btn btn-success" />
+						<a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
+					</div>
 					
 				</div>
 			</div>
