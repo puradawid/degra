@@ -3,3 +3,5 @@ Django==1.6.2
 South==0.8.4
 django-password-reset==0.7
 pyaml==14.04.3
+django-auth-ldap==1.2.0
+django-widget-tweaks==1.3

@@ -1,5 +1,5 @@
 from django.views.generic.list import ListView
-from apps.plan.models import Lesson
+from apps.plan.models import Lesson, Post
 
 class PlanView(ListView):
     template_name = 'plan/plan.html'
@@ -10,6 +10,7 @@ class PlanView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PlanView, self).get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
         context.update({
             # extra data goes here
             # 'key' : value

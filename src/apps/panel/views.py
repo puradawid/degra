@@ -3,10 +3,12 @@
 
 from django.views.generic import FormView
 from django.contrib.auth.models import User
-from apps.plan.models import Group
+from apps.plan.models import Group, Post
 from apps.accounts.models import Account
-from apps.panel.forms import ImportCSVForm
+from apps.panel.forms import ImportCSVForm, NewsForm, NewsFormEdit
 from django.contrib import messages
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from django.core.urlresolvers import reverse
 import csv
 import os
 from django.views.generic.base import TemplateView
@@ -42,6 +44,39 @@ class ImportGroupsView(TemplateView):
             context['count'] = count
         return context
 
+class AddNews(CreateView):
+    template_name = 'panel/add_news.html'
+    form_class = NewsForm
+    success_url = '.'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddNews, self).get_context_data(**kwargs)
+        context['posts'] = Post.objects.all()
+        return context
+    
+class DeleteNews(DeleteView):
+    model = Post
+    template_name = 'panel/delete_news.html'
+    
+    def get_object(self, *args, **kwargs):
+        obj = super(DeleteNews,self).get_object(*args,**kwargs)
+        return obj
+    
+    def get_success_url(self):
+        return reverse('add_news')
+    
+class EditNews(UpdateView):
+    model = Post
+    template_name = 'panel/edit_news.html'   
+    form_class = NewsFormEdit
+    
+    def get_object(self, *args, **kwargs):
+        obj = super(EditNews, self).get_object(*args, **kwargs)
+        return obj 
+    
+    def get_success_url(self):
+        return reverse('add_news')
+    
 def handle_uploaded_file(uploaded_file):
     """
         Save uploaded file
