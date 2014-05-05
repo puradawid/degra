@@ -109,8 +109,8 @@
 - model: plan.lesson
   pk: 1
   fields:
-    start_hour: 11
-    end_hour: 12
+    start_hour: 8
+    length: 2
     day_of_week: 1
     type: 'PS'
     course: 1
@@ -120,19 +120,19 @@
 - model: plan.lesson
   pk: 2
   fields:
-    start_hour: 1
-    end_hour: 2
+    start_hour: 10
+    length: 2
     day_of_week: 2
     type: 'CW'
     course: 1
     teacher: 1
-    group: 1
+    group: 2
 
 - model: plan.lesson
   pk: 3
   fields:
-    start_hour: 1
-    end_hour: 2
+    start_hour: 11
+    length: 2
     day_of_week: 3
     type: 'LAB'
     course: 2
@@ -142,8 +142,8 @@
 - model: plan.lesson
   pk: 4
   fields:
-    start_hour: 1
-    end_hour: 2
+    start_hour: 8
+    length: 2
     day_of_week: 3
     type: 'PS'
     course: 2
@@ -153,8 +153,8 @@
 - model: plan.lesson
   pk: 5
   fields:
-    start_hour: 1
-    end_hour: 2
+    start_hour: 13
+    length: 2
     day_of_week: 3
     type: 'WYK'
     course: 2
@@ -164,9 +164,9 @@
 - model: plan.lesson
   pk: 6
   fields:
-    start_hour: 1
-    end_hour: 2
-    day_of_week: 3
+    start_hour: 13
+    length: 3
+    day_of_week: 1
     type: 'PS'
     course: 2
     teacher: 2

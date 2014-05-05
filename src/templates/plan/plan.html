@@ -17,23 +17,78 @@
             </div>
         </div>
 	{% endfor %}
-	{% for lesson in lesson_list %}
-		Lesson id: {{ lesson.pk }}<br/>
-		&emsp;Start hour/end hour: {{ lesson.start_hour }}/{{ lesson.end_hour }}<br/>
-		&emsp;Day of week: {{ lesson.day_of_week }}<br/>
-		&emsp;Type: {{ lesson.type }}<br/>
-		&emsp;Course: {{ lesson.course }}<br/>
-		&emsp;Teacher: {{ lesson.teacher }}<br/>
-		&emsp;Group: {{ lesson.group }}<br/>
-		
-		{% if lesson.notes.all %}
-			&emsp;Notes:<br/>
-			{% for note in lesson.notes.all %}
+
+
+
+	
+
+
+<div id="plan" class="visible-md visible-lg hidden-xs hidden-sm">
+           <h1>Plan zajęć</h1>
+           <div class="rozklad">
+
+
+{% for lesson in lesson_list %}
+
+ <div class="zajecia od-{{ lesson.start_hour }} czas-{{ lesson.length }}h type-{{ lesson.type }} day-{{ lesson.day_of_week }}">
+               <span class="przedmiot">{{ lesson.course }}</span>
+               <span class="rodzaj">{{ lesson.type }}</span>
+               <span class="godzina">{{ lesson.start_hour }}:15 - {{ lesson.length }}:00</span>
+               <span class="sala">WI-12B</span>
+               <span class="edytuj_przedmiot"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+{% if lesson.notes.all %}
+ 		<span class="Notatka"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+		{% for note in lesson.notes.all %}
 				&emsp;&emsp;Note id: {{ note.pk }}<br/>
 				&emsp;&emsp;&emsp;Content: {{ note.content }}<br/>
 				&emsp;&emsp;&emsp;Title: {{ note.title }}<br/>
 				&emsp;&emsp;&emsp;Created: {{ note.created }}<br/><br/>
 			{% endfor %}
-		{% endif %}
-	{% endfor %}
+
+{% endif %}
+             </div>
+
+		
+			
+		
+	
+
+
+{% endfor %}
+           </div>
+           </div>
+
+<!-- edycja -->
+<div class="modal fade" id="edycja" tabindex="-1" role="dialog" aria-labelledby="edycjaLabel" aria-hidden="true">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       <h4 class="modal-title" id="myModalLabel">Edycja Zaj����</h4>
+     </div>
+     <div class="modal-body">
+       
+           <label for="exampleInputFile">Technika Cyfrowa</label><br />
+           <label for="exampleInputFile">Zmie�� grup�� ��wiczeniow��</label>
+
+           <select class="form-control" >
+           <option disabled selected>Grupa</option>
+               <option>1</option>
+               <option>2</option>
+               <option>3</option>
+               <option>4</option>
+               <option>5</option>
+               <option>6</option>
+               <option>7</option>
+           </select><br /><br />
+       
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+       <button type="button" class="btn btn-primary" data-dismiss="modal">Zapisz</button>
+     </div>
+   </div>
+ </div>
+</div>
+
 {% endblock %}

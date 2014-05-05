@@ -57,19 +57,19 @@ height: 700px;
 	background-repeat: repeat-y;
 	height: 700px;
 }
-.pon{
+.day-1{
 left: 1px;
 }
-.wt{
+.day-2{
 left: 193px;
 }
-.sr{
+.day-3{
 left: 385px;
 }
-.czw{
+.day-4{
 left: 577px;
 }
-.pt{
+.day-5{
 left: 769px;
 }
 .zajecia{
@@ -80,25 +80,25 @@ left: 769px;
 	line-height: 1;
 }
 
-.wyklad{
+.type-WYK{
 	background-color: #d7ffaa;
 	border:2px solid;
   border-radius:10px;
   border-color: #b8e288;
 }
-.cwiczenia{
+.type-CW{
 	background-color: #ffffae;
 	border:2px solid;
   border-radius:10px;
   border-color: #e6e653;
 }
-.psy {
+.type-PS {
 	background-color: #9bc4ff;
 	border:2px solid;
   border-radius:10px;
   border-color: #6699cc;
 }
-.lab {
+.type-LAB{
 	background-color: #ffcaca;
 	border:2px solid;
   border-radius:10px;

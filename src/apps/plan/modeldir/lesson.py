@@ -20,7 +20,7 @@ class Lesson(models.Model):
         (7, 'Niedziela'),
     )
     start_hour = models.IntegerField()
-    end_hour = models.IntegerField()
+    length = models.IntegerField()
     day_of_week = models.IntegerField(choices = DAY_CHOICES)
     type = models.CharField(max_length = 3, choices = TYPE_CHOICES)
     course = models.ForeignKey(Course)
