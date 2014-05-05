@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Zarządzanie wiadomościami{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6">
+        <form method="post" class="form-horizontal">
+            {% csrf_token %}
+				<!-- Display form errors if exist -->
+            {% if form.non_field_errors %}
+					{% for message in form.non_field_errors %}
+						<p>
+                            {{ message | escape }}
+                        </p>
+            		{% endfor %}
+			{% endif %}
+            <fieldset>
+                <legend>
+                    <h2>Dodawanie powiadomień</h2>
+                </legend>
+                {% for field in form %}
+	                {% if field.is_hidden %}
+		                {{ field }}
+	                {% else %}
+		            <div class="form-group">
+                        <div class="col-lg-12">
+                            {{ field | add_class:"form-control" }}
+                        </div>
+                    </div>
+                	{% endif %}
+					<!-- Display field errors (like empty field) -->
+	                {% if field.errors %}
+						{% for error in field.errors %}
+							<div class="alert alert-warning"><strong>{{ error | escape }}</strong></div>
+	                    {% endfor %}
+					{% endif %}
+	            {% endfor %}
+                <div class="form-group">
+                    <div class="col-lg-12 ">
+                        <button type="submit" class="btn btn-info">
+                            Edytuj
+                        </button>
+                        <a class="btn btn-default" href='{% url "add_news" %}'>Anuluj</a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}

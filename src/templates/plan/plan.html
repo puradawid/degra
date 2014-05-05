@@ -3,7 +3,20 @@
 {% block title %}Plan zajęć{% endblock %}
 
 {% block content %}
-
+	{% for post in posts %}
+		<div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ post.title }}</h3>
+            </div>
+            <div class="panel-body">
+                {{ post.content }}
+                <br />
+                <span style="float: right">
+                ({{ post.created }})
+                </span>
+            </div>
+        </div>
+	{% endfor %}
 	{% for lesson in lesson_list %}
 		Lesson id: {{ lesson.pk }}<br/>
 		&emsp;Start hour/end hour: {{ lesson.start_hour }}/{{ lesson.end_hour }}<br/>
@@ -23,5 +36,4 @@
 			{% endfor %}
 		{% endif %}
 	{% endfor %}
-
 {% endblock %}

@@ -3,12 +3,19 @@
 
 from django.views.generic import FormView
 from django.contrib.auth.models import User
-from apps.plan.models import Group
+from apps.plan.models import Group, Post
 from apps.accounts.models import Account
-from apps.panel.forms import ImportCSVForm
+from apps.panel.forms import ImportCSVForm, NewsForm
 from django.contrib import messages
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
+from django.core.urlresolvers import reverse
 import csv
 import os
+from django.views.generic.base import TemplateView
+import xml.etree.cElementTree as etree
+
+class PanelView(TemplateView):
+    template_name = 'panel/panel.html'
 
 class ImportStudentsView(FormView):
     template_name = 'panel/import_students.html'
@@ -22,10 +29,58 @@ class ImportStudentsView(FormView):
             result = import_students_from_csv(csvfile)
         remove_uploaded_file(uploaded_file)
         messages.success(self.request, 'Zaimportowano ' + str(result['count']) + ' studentów', fail_silently=True)
-        print result['errors']
-        messages.error(self.request, ','.join(result['errors']), fail_silently=True)
+        # print result['errors'] TODO: Log errors or sth
+        # messages.error(self.request, ','.join(result['errors']), fail_silently=True)
         return super(ImportStudentsView, self).form_valid(form)
 
+class ImportGroupsView(TemplateView):
+    template_name = 'panel/import_groups.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(ImportGroupsView, self).get_context_data(**kwargs)
+        with open('grupy.xml') as xmlfile:
+            xmldata = xmlfile.read()
+            count = import_groups_from_xml(xmldata)
+            context['count'] = count
+        return context
+
+class AddNews(CreateView):
+    template_name = 'panel/add_news.html'
+    form_class = NewsForm
+    success_url = '.'
+
+    def get_context_data(self, **kwargs):
+        context = super(AddNews, self).get_context_data(**kwargs)
+        context.update({
+            # extra data goes here
+            # 'key' : value
+            'posts' : Post.objects.all().order_by('-created')
+        })
+        return context
+    
+class DeleteNews(DeleteView):
+    model = Post
+    template_name = 'panel/delete_news.html'
+    
+    def get_object(self, *args, **kwargs):
+        obj = super(DeleteNews,self).get_object(*args,**kwargs)
+        return obj
+    
+    def get_success_url(self):
+        return reverse('add_news')
+    
+class EditNews(UpdateView):
+    model = Post
+    template_name = 'panel/edit_news.html'   
+    form_class = NewsForm
+    
+    def get_object(self, *args, **kwargs):
+        obj = super(EditNews, self).get_object(*args, **kwargs)
+        return obj 
+    
+    def get_success_url(self):
+        return reverse('add_news')
+    
 def handle_uploaded_file(uploaded_file):
     """
         Save uploaded file
@@ -66,3 +121,20 @@ def import_students_from_csv(csvfile):
             account.save()
             result['count'] += 1
     return result
+
+def import_groups_from_xml(xmldata):
+    """
+        Import groups from xmldata (file or webservice). Accepts string with xml data as parameter. Return number of imported groups.
+        :param xmldata: string
+        :returns count: int
+    """
+    count = 0
+    xml_tree = etree.XML(xmldata)
+    for group in xml_tree.iter('grupa'):
+        name = group.find('nazwa').text
+        type = group.find('typ').text
+        g = Group.objects.create(name=name, type=type)
+        g.save()
+        count += 1
+        
+    return count

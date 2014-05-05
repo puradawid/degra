@@ -1,5 +1,5 @@
 from django.views.generic.list import ListView
-from apps.plan.models import Lesson
+from apps.plan.models import Lesson, Post
 from apps.accounts.models import UserToLesson
 from django.db.models import Q
 
@@ -32,6 +32,7 @@ class PersonalizedPlanView(ListView):
         context.update({
             # extra data goes here
             # 'key' : value
+            'posts' : Post.objects.all().order_by('-created')
         })
         return context
 
@@ -62,6 +63,8 @@ class PlanView(ListView):
         context.update({
             # extra data goes here
             # 'key' : value
+            'posts' : Post.objects.all().order_by('-created')
         })
         return context
+    
     

@@ -55,4 +55,9 @@ docs/_build/
 # SQLite3
 *.sqlite3
 
+# meld
+*.orig
+
 *~
+.settings/
+migrations/

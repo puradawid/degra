@@ -7,49 +7,56 @@
 
 
 <!-- to jest do zrobienia -->
- <div class="container">
 
-      <div class="degra-frame">
-        <h1>Degra 2.0</h1>
-		<legend>Podaj numer indeksu, aby sprawdzić plan</legend>
-		<form role="form">
-			<input type="text" class="form-control" id="inputIndeks" placeholder="Podaj indeks"/>
-			<br/>
-			<button type="button" class="btn btn-primary" onclick="location.href = '/i/' + document.getElementById('inputIndeks').value;">Idź</button>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logowanie">Zaloguj</button>
-			<hr>
-		</form>
-			<p>Jeżeli chcesz personalizować swój plan musisz się <button type="button" class="btn btn-link" onclick="location.href='rejestracja.html'">zarejestrować</button></p>
-      </div>
-    </div><!-- /.container -->
-
-
-
-				<form role="form" method="post" action=".">{% csrf_token %}
-					<!-- Display form errors if exist -->
-					{% if form.errors %}
-					    {% for field in form %}
-						{% for error in field.errors %}
-						    <div class="alert alert-warning">
-							<strong>{{ error|escape }}</strong>
-						    </div>
-						{% endfor %}
-					    {% endfor %}
-					    {% for error in form.non_field_errors %}
-						<div class="alert alert-warning">
-						    <strong>{{ error|escape }}</strong>
+    <div class="row">
+    	<div class="col-lg-6 col-lg-offset-3">
+    		<div class="well">
+				<legend class="text-center">
+					<h2>Degra 2.0</h2>
+					<p>Podaj numer indeksu, aby sprawdzić plan</p>
+				</legend>
+				<form class="form-horizontal" >
+					<div class="form-group">
+						<div class="col-lg-12">
+							<input type="text" class="form-control" id="inputIndeks" placeholder="Podaj indeks"/>
 						</div>
-					    {% endfor %}
-					{% endif %}
-<!--LOGOWANIE-->
-	<div class="modal fade" id="logowanie" tabindex="-1" role="dialog" aria-labelledby="logowanieLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Logowanie</h4>
-				</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<button type="submit" class="btn btn-primary">Idź</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logowanie">Zaloguj</button>
+						</div>
+					</div>
+				</form>
+	     	 </div>
+    	</div>
+    </div>
 
+	<form method="post" action=".">{% csrf_token %}
+		<!-- Display form errors if exist -->
+		{% if form.errors %}
+		    {% for field in form %}
+			{% for error in field.errors %}
+			    <div class="alert alert-warning">
+				<strong>{{ error|escape }}</strong>
+			    </div>
+			{% endfor %}
+		    {% endfor %}
+		    {% for error in form.non_field_errors %}
+			<div class="alert alert-warning">
+			    <strong>{{ error|escape }}</strong>
+			</div>
+		    {% endfor %}
+		{% endif %}
+		<!--LOGOWANIE-->
+		<div class="modal fade" id="logowanie" tabindex="-1" role="dialog" aria-labelledby="logowanieLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Logowanie</h4>
+					</div>
+	
 					<div class="modal-body">
 						<div>{{ form.username | add_class:"form-control" | append_attr:"placeholder:login"}}</div>
 						<br/>
@@ -58,13 +65,11 @@
 					<div class="modal-footer">
 						<input type="hidden" name="next" value="/" />
 						<input type="submit" value="Zaloguj" class="btn btn-success" />
-						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href='rejestracja.html'">Zarejestruj</button>
-<a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
+						<a href="{% url "password_reset_recover" %}">Odzyskaj hasło</a>
 					</div>
-				
+					
+				</div>
 			</div>
 		</div>
-	</div>
-
-
+	</form>
 {% endblock %}

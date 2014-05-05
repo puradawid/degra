@@ -10,13 +10,13 @@ class PlanTestCase(TestCase):
         call_command('loaddata', 'plan', verbosity=0)
 
     def test_notes_relations(self):
-        user2_notes = UserToLesson.objects.get(lesson__pk=2, user__pk=2).notes
+        user2_notes = UserToLesson.objects.get(lesson__pk=2, user__pk=1).notes
         self.assertEqual(user2_notes.count(), 0)
-        user1_notes = UserToLesson.objects.get(lesson__pk=2, user__pk=1).notes
+        user1_notes = UserToLesson.objects.get(lesson__pk=2, user__pk=2).notes
         self.assertEqual(user1_notes.count(), 1)
         
     def test_lesson_relations(self):
-        user2_lesson = UserToLesson.objects.filter(user__pk=2)
+        user2_lesson = UserToLesson.objects.filter(user__pk=1)
         self.assertEqual(user2_lesson.count(), 1)
-        user1_lesson = UserToLesson.objects.filter(user__pk=1)
+        user1_lesson = UserToLesson.objects.filter(user__pk=2)
         self.assertEqual(user1_lesson.count(), 3)
