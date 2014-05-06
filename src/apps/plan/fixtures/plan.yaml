@@ -61,11 +61,19 @@
     created: "2014-04-21 12:00+02:00"
 
 - model: plan.note
+  pk: 1
+  fields:
+    title: 'This is my first test note'
+    content: 'Well i want to create a new note so i am doing it right now' 
+    author: 2
+    created: "2014-04-21 12:00+02:00"
+
+- model: plan.note
   pk: 2
   fields:
     title: 'My second note'
     content: 'Dear diary, I wont pass' 
-    author: 1
+    author: 2
     created: "2014-04-21 12:00+02:00"
 
 - model: plan.post
@@ -110,7 +118,7 @@
   pk: 1
   fields:
     start_hour: 8
-    length: 2
+    duration: 2
     day_of_week: 1
     type: 'PS'
     course: 1
@@ -121,7 +129,7 @@
   pk: 2
   fields:
     start_hour: 10
-    length: 2
+    duration: 2
     day_of_week: 2
     type: 'CW'
     course: 1
@@ -132,7 +140,7 @@
   pk: 3
   fields:
     start_hour: 11
-    length: 2
+    duration: 2
     day_of_week: 3
     type: 'LAB'
     course: 2
@@ -143,7 +151,7 @@
   pk: 4
   fields:
     start_hour: 8
-    length: 2
+    duration: 2
     day_of_week: 3
     type: 'PS'
     course: 2
@@ -154,7 +162,7 @@
   pk: 5
   fields:
     start_hour: 13
-    length: 2
+    duration: 2
     day_of_week: 3
     type: 'WYK'
     course: 2
@@ -165,7 +173,7 @@
   pk: 6
   fields:
     start_hour: 13
-    length: 3
+    duration: 3
     day_of_week: 1
     type: 'PS'
     course: 2

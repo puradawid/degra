@@ -30,20 +30,47 @@
 
 {% for lesson in lesson_list %}
 
- <div class="zajecia od-{{ lesson.start_hour }} czas-{{ lesson.length }}h type-{{ lesson.type }} day-{{ lesson.day_of_week }}">
+ <div class="zajecia od-{{ lesson.start_hour }} czas-{{ lesson.duration }}h type-{{ lesson.type }} day-{{ lesson.day_of_week }}">
                <span class="przedmiot">{{ lesson.course }}</span>
                <span class="rodzaj">{{ lesson.type }}</span>
-               <span class="godzina">{{ lesson.start_hour }}:15 - {{ lesson.length }}:00</span>
+               <span class="godzina">Start:{{ lesson.start_hour }}:15 Koniec po: {{ lesson.duration }} h</span>
                <span class="sala">WI-12B</span>
                <span class="edytuj_przedmiot"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+<span class="notatka_add_przedmiot"><a href="#" data-toggle="modal" data-target="#note-Add">(A)</a></span>
 {% if lesson.notes.all %}
- 		<span class="Notatka"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
-		{% for note in lesson.notes.all %}
-				&emsp;&emsp;Note id: {{ note.pk }}<br/>
-				&emsp;&emsp;&emsp;Content: {{ note.content }}<br/>
-				&emsp;&emsp;&emsp;Title: {{ note.title }}<br/>
-				&emsp;&emsp;&emsp;Created: {{ note.created }}<br/><br/>
-			{% endfor %}
+
+ 		<span class="notatka_przedmiot"><a href="#" data-toggle="modal" data-target="#note-">(N)</a></span>
+		
+			
+
+
+
+<!-- notatka-->
+<div class="modal fade" id="note-" tabindex="-1" role="dialog" aria-labelledby="edycjaLabel" aria-hidden="true">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       <h4 class="modal-title" id="myModalLabel">Notatka</h4>
+     </div>
+     <div class="modal-body">
+       
+{% for note in lesson.notes.all %}
+
+         <label>
+{{ note.content }}</label><br /><br /><br />
+        <label > Created: {{ note.created }} </label><br />
+{% endfor %}
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+       <button type="button" class="btn btn-primary" data-dismiss="modal">Edytuj</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+
 
 {% endif %}
              </div>
@@ -64,12 +91,12 @@
    <div class="modal-content">
      <div class="modal-header">
        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-       <h4 class="modal-title" id="myModalLabel">Edycja Zaj����</h4>
+       <h4 class="modal-title" id="myModalLabel">Edycja Zajec</h4>
      </div>
      <div class="modal-body">
        
            <label for="exampleInputFile">Technika Cyfrowa</label><br />
-           <label for="exampleInputFile">Zmie�� grup�� ��wiczeniow��</label>
+           <label for="exampleInputFile">Zmien grupe Cwiczeniowa</label>
 
            <select class="form-control" >
            <option disabled selected>Grupa</option>
@@ -86,6 +113,29 @@
      <div class="modal-footer">
        <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
        <button type="button" class="btn btn-primary" data-dismiss="modal">Zapisz</button>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- notatka-Add-->
+<div class="modal fade" id="note-Add" tabindex="-1" role="dialog" aria-labelledby="edycjaLabel" aria-hidden="true">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       <h4 class="modal-title" id="myModalLabel">Dodaj Notatke</h4>
+     </div>
+     <div class="modal-body">
+       
+           <input type="text" class="form-control" placeholder="Tytul">
+
+         <textarea class="form-control" rows="3">
+Content</textarea>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+       <button type="button" class="btn btn-primary" data-dismiss="modal">Dodaj</button>
      </div>
    </div>
  </div>

@@ -164,6 +164,29 @@ left: 769px;
 	color: #000;
 
 }
+
+.notatka_przedmiot{
+	margin-right: 25px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.notatka_add_przedmiot{
+	margin-right: 45px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+.notatka_przedmiot a{
+	color: #000;
+
+}
+.notatka_add_przedmiot a{
+	color: #000;
+
+}
+
 .rodzaj{
 	width: 190px;
 display: block;
