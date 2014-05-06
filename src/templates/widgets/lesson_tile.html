@@ -1,0 +1,21 @@
+<div class="zajecia od-{{ lesson.start_hour }} czas-{{ lesson.length }}h type-{{ lesson.type }} day-{{ lesson.day_of_week }}">
+	<span class="przedmiot">{{ lesson.course }}</span>
+	<span class="rodzaj">{{ lesson.type }}</span>
+	<span class="godzina">{{ lesson.start_hour }}:15 - {{ lesson.length }}:00</span>
+	<span class="sala">WI-12B</span>
+	<span class="edytuj_przedmiot"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+	{% if lesson.notes.all %}
+		<span class="Notatka"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+		{% for note in lesson.notes.all %}
+			&emsp;&emsp;Note id: {{ note.pk }}
+			<br/>
+			&emsp;&emsp;&emsp;Content: {{ note.content }}
+			<br/>
+			&emsp;&emsp;&emsp;Title: {{ note.title }}
+			<br/>
+			&emsp;&emsp;&emsp;Created: {{ note.created }}
+			<br/>
+			<br/>
+		{% endfor %}
+	{% endif %}
+</div>
