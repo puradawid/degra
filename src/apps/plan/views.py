@@ -16,7 +16,7 @@ class PersonalizedPlanView(ListView):
             utllist = UserToLesson.objects.filter(user=self.request.user)
         else: # tymczasowe rozwiazanie
             pview = PlanView()
-            pview.kwargs={'field': 'inf', 'semestr': '1', 'groups': 'cw1'}
+            pview.kwargs={'field': 'inf', 'semestr': '1', 'groups': 'cw1/wyk1'}
             return pview.get_queryset()
 
         for obj in utllist:

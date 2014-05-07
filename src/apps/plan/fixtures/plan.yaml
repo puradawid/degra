@@ -39,9 +39,9 @@
   fields:
     number: 1
     type: 'WYK'
-    name: 'RW-W1'
+    name: 'WYK1'
     field_of_study: 'INF'
-    semestr: 0
+    semestr: 1
 
 - model: plan.group
   pk: 6
@@ -134,7 +134,7 @@
     type: 'CW'
     course: 1
     teacher: 1
-    group: 2
+    group: 1
 
 - model: plan.lesson
   pk: 3
