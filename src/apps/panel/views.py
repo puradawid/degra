@@ -13,6 +13,7 @@ import csv
 import os
 from django.views.generic.base import TemplateView
 import xml.etree.cElementTree as etree
+from braces.views._access import LoginRequiredMixin
 
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
