@@ -1,0 +1,20 @@
+- model: accounts.usertolesson
+  pk: 1
+  fields:
+    user: 1
+    lesson: 1
+    notes: [1]
+
+- model: accounts.usertolesson
+  pk: 2
+  fields:
+    user: 1
+    lesson: 2
+    notes: [2]
+
+- model: accounts.usertolesson
+  pk: 3
+  fields:
+    user: 1
+    lesson: 3
+    notes: []

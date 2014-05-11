@@ -179,32 +179,3 @@
     course: 2
     teacher: 2
     group: 6
-
-
-- model: accounts.usertolesson
-  pk: 1
-  fields:
-    user: 2
-    lesson: 1
-    notes: [1]
-
-- model: accounts.usertolesson
-  pk: 2
-  fields:
-    user: 2
-    lesson: 2
-    notes: [2]
-
-- model: accounts.usertolesson
-  pk: 3
-  fields:
-    user: 2
-    lesson: 3
-    notes: []
-
-- model: accounts.usertolesson
-  pk: 4
-  fields:
-    user: 1
-    lesson: 2
-    notes: []
