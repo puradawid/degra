@@ -13,6 +13,8 @@ import csv
 import os
 from django.views.generic.base import TemplateView
 import xml.etree.cElementTree as etree
+import re
+from django.core.exceptions import ValidationError
 
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
@@ -24,13 +26,34 @@ class ImportStudentsView(FormView):
     
     def form_valid(self, form):
         uploaded_file = form.cleaned_data['file']
-        handle_uploaded_file(uploaded_file)
-        with open('uploads/' + uploaded_file.name) as csvfile:
-            result = import_students_from_csv(csvfile)
-        remove_uploaded_file(uploaded_file)
-        messages.success(self.request, 'Zaimportowano ' + str(result['count']) + ' studentów', fail_silently=True)
-        # print result['errors'] TODO: Log errors or sth
-        # messages.error(self.request, ','.join(result['errors']), fail_silently=True)
+        rows = list(csv.reader(uploaded_file))
+        
+        for row in rows:
+            index_number = row[0]
+            
+            profile = Account.objects.get_or_create(index_number=index_number)[0]
+
+            for group_name in row[1:]:    
+                m = re.search('[a-zA-Z-]+(?!=\d)', group_name)
+                if m:
+                    group_type = m.group()
+                else:
+                    raise ValidationError('Not a valid group name!')
+
+                group = Group.objects.get_or_create(name=group_name, semestr=1, field_of_study='INF', number=1)[0]
+    
+                # check if user is already in group
+                if group in profile.groups.all():
+                    continue
+    
+                # check if user is already in such type of group
+                try:
+                    profile.groups.filter(name__regex='^%s' % group_type).delete()
+                except Group.DoesNotExist:
+                    pass
+                
+                profile.groups.add(group)
+
         return super(ImportStudentsView, self).form_valid(form)
 
 class ImportGroupsView(TemplateView):
@@ -80,22 +103,6 @@ class EditNews(UpdateView):
     
     def get_success_url(self):
         return reverse('add_news')
-    
-def handle_uploaded_file(uploaded_file):
-    """
-        Save uploaded file
-    """
-    filename = uploaded_file.name
-    with open('uploads/' + filename, 'wb+') as destination:
-        for chunk in uploaded_file.chunks():
-            destination.write(chunk)
-            
-def remove_uploaded_file(uploaded_file):
-    """
-        Remove uploaded file from server
-    """
-    filename = uploaded_file.name
-    os.remove('uploads/' + filename)
 
 def import_students_from_csv(csvfile):
     """
@@ -103,7 +110,7 @@ def import_students_from_csv(csvfile):
         :param csvfile: file
         :returns count: dictionary - key 'count': int, key 'messages': list of strings
     """
-    students_reader = csv.DictReader(csvfile)
+    students_reader = csv.reader(csvfile)
     result = {'count': 0, 'errors': []}
     for row in students_reader:
         if User.objects.filter(username=row['Indeks']).exists() == False:
@@ -115,7 +122,7 @@ def import_students_from_csv(csvfile):
             try:
                 group = Group.objects.get(name=row['Grupa'])
                 account.groups.add(group)
-            except Exception:
+            except Group.DoesNotExist:
                 result['errors'].append('Grupa ' + row['Grupa'] + ' nie istnieje w bazie')
                 
             account.save()

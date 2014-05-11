@@ -11,9 +11,10 @@ class PersonalizedPlanView(ListView):
         lesson_list = list()
 
         if 'index_number' in self.kwargs:
-            utllist = UserToLesson.objects.filter(user__profile__index_number=self.kwargs['index_number'])
+            utllist = UserToLesson.objects.filter(account__index_number=self.kwargs['index_number'])
         elif self.request.user.is_authenticated():
-            utllist = UserToLesson.objects.filter(user=self.request.user)
+            utllist = UserToLesson.objects.filter(account=self.request.user.profile)
+            
         else: # tymczasowe rozwiazanie
             pview = PlanView()
             pview.kwargs={'field': 'inf', 'semestr': '1', 'groups': 'cw1/wyk1'}

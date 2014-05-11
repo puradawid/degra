@@ -52,30 +52,6 @@
     field_of_study: 'INF'
     semestr: 2
 
-- model: plan.note
-  pk: 1
-  fields:
-    title: 'This is my first test note'
-    content: 'Well i want to create a new note so i am doing it right now' 
-    author: 1
-    created: "2014-04-21 12:00+02:00"
-
-- model: plan.note
-  pk: 1
-  fields:
-    title: 'This is my first test note'
-    content: 'Well i want to create a new note so i am doing it right now' 
-    author: 2
-    created: "2014-04-21 12:00+02:00"
-
-- model: plan.note
-  pk: 2
-  fields:
-    title: 'My second note'
-    content: 'Dear diary, I wont pass' 
-    author: 2
-    created: "2014-04-21 12:00+02:00"
-
 - model: plan.post
   pk: 1
   fields:
