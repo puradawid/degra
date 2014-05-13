@@ -1,34 +1,22 @@
-from django.views.generic.list import ListView
-from apps.plan.models import Lesson, Post
 from apps.accounts.models import Account
+from apps.plan.models import Lesson, Post, Note, Group
 from django.db.models import Q
-from apps.plan.modeldir.note import Note
+from django.views.generic.list import ListView
 
-def get_groups_plan(field, semestr, groups, electives=None):
-    """
-        Returns plan for a selected groups
-    """
-    qgroups = Q()
-    qelectives = Q()
-    
-    for value in groups:
-        qgroups |= Q(group__name__iexact = value, group__field_of_study__iexact=field, group__semestr=semestr)
+def nameiexact(name_list):
+    q_list = map(lambda n: Q(name__iexact=n), name_list)
+    q_list = reduce(lambda a, b: a | b, q_list)
 
-    if electives is not None:
-        for value in electives:
-            qelectives |= Q(group__name__iexact = value, group__semestr=0)
+    return q_list
 
-    return Lesson.objects.filter(qgroups | qelectives)
+def add_notes(profile, plan):
+    for lesson in plan:
+        lesson.notes = Note.objects.filter(lesson=lesson, author=profile)        
+    return plan
 
 class PersonalizedPlanView(ListView):
     template_name = 'plan/plan.html'
     context_object_name = 'lesson_list'
-    
-    def complete_plan(self, plan):
-        for lesson in plan:
-            lesson.notes = Note.objects.filter(lesson=lesson, author=self.request.user.profile)
-            print lesson.notes
-        return plan
     
     def get_queryset(self):
 
@@ -37,9 +25,16 @@ class PersonalizedPlanView(ListView):
         elif self.request.user.is_authenticated():
             profile = self.request.user.profile
         else:
-            return get_groups_plan('INF', '1', ('cw1', 'ps1'))
+            groups = Group.objects.filter(Q(field_of_study='INF', semestr=1), nameiexact(['cw1', 'ps1']))
+            return Lesson.objects.filter(group__in=groups)
+        
+        lesson_list = profile.get_plan()
+        
+        if self.request.user.is_authenticated():
+            # add notes for logged user
+            lesson_list = add_notes(self.request.user.profile, lesson_list)
 
-        return self.complete_plan(profile.get_plan())
+        return lesson_list
 
     def get_context_data(self, **kwargs):
         context = super(PersonalizedPlanView, self).get_context_data(**kwargs)
@@ -54,36 +49,26 @@ class PlanView(ListView):
     template_name = 'plan/plan.html'
     context_object_name = 'lesson_list'
     
-    def complete_plan(self, plan):
-        for lesson in plan:
-            lesson.notes = Note.objects.filter(lesson=lesson, author=self.request.user.profile)
-        
-        return plan
-    
     def get_queryset(self):
-        qgroups = Q()
-        qelectives = Q()
         
         field = self.kwargs['field']
         semestr = self.kwargs['semestr']
         groups = self.kwargs['groups'].split('/')
         
-        if "electives" in self.kwargs:
-            electives = self.kwargs['electives'].split('/')
-            return get_groups_plan(field, semestr, groups, electives)
-        else:
-            return get_groups_plan(field, semestr, groups)
+        qgroups = Q(Q(field_of_study__iexact=field, semestr=semestr), nameiexact(groups))
         
-        for value in groups:
-            qgroups |= Q(group__name__iexact = value, group__field_of_study__iexact=field, group__semestr=semestr)
-
         if "electives" in self.kwargs:
             electives = self.kwargs['electives'].split('/')
-            for value in electives:
-                qelectives |= Q(group__name__iexact = value, group__semestr=0)
+            qgroups |= Q(Q(semestr=0), nameiexact(electives))
+        
+        lesson_list = Lesson.objects.filter(group__in=Group.objects.filter(qgroups))
+        
+        if self.request.user.is_authenticated():
+            # add notes for logged user
+            lesson_list = add_notes(self.request.user.profile, lesson_list)
 
-        return Lesson.objects.filter(qgroups | qelectives)
-
+        return lesson_list
+    
     def get_context_data(self, **kwargs):
         context = super(PlanView, self).get_context_data(**kwargs)
         context.update({

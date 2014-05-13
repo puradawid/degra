@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from apps.plan.models import Post
 from django import forms
 from django.forms.models import ModelForm
-from apps.plan.models import Group, Post
 
 class ImportCSVForm(forms.Form):
     #semestr = forms.IntegerField(label='Semestr')

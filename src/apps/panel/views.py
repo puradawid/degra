@@ -1,23 +1,17 @@
- #!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-from django.views.generic import FormView
-from django.contrib.auth.models import User
-from apps.plan.models import Group, Post
 from apps.accounts.models import Account
 from apps.panel.forms import ImportCSVForm, NewsForm
-from django.contrib import messages
-from django.views.generic.edit import DeleteView, CreateView, UpdateView
-from django.core.urlresolvers import reverse
-import csv
-import os
-from django.views.generic.base import TemplateView
-import xml.etree.cElementTree as etree
-import re
-from django.core.exceptions import ValidationError
-from apps.plan.modeldir.teacher import Teacher
 from apps.plan.modeldir.course import Course
 from apps.plan.modeldir.lesson import Lesson
+from apps.plan.models import Group, Post, Teacher
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.db import transaction
+from django.views.generic import FormView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
+import csv
+import re
+import xml.etree.cElementTree as etree
 
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
@@ -28,28 +22,60 @@ class ImportStudentsView(FormView):
     success_url = '.'
     
     def form_valid(self, form):
-        uploaded_file = form.cleaned_data['file']
-        rows = list(csv.reader(uploaded_file))
-
+        rows = list(csv.reader(form.cleaned_data['file']))
+        
+        # file doesnt have errors... yet
+        has_error = False
+        
+        # make transaction savepoint
+        sid = transaction.savepoint()
+        
+        # iterate over all file rows
         for row in rows:
             index_number = row[0]
+            
+            # get or create account with current index number
+            profile, created = Account.objects.get_or_create(pk=index_number)
+            
+            print Account.objects.filter(pk__iexact="123").query
 
-            profile = Account.objects.get_or_create(index_number=index_number)[0]
-
-            for group_name in row[1:]:    
-                m = re.search('[a-zA-Z-]+(?!=\d)', group_name)
+            # iterate over all user groups from file
+            # 1st cell is index number
+            for group_name in row[1:]:
+                
+                # check if group has proper name PrefixNumber, eg. PS1    
+                m = re.search('^[a-zA-Z-]+(?=\d+$)', group_name)
                 if m:
                     group_prefix = m.group()
                 else:
-                    raise ValidationError('Not a valid group name!')
+                    # we have bad item over here
+                    messages.error(self.request, "{0} posiada niepoprawna grupe {1}".format(index_number, group_name))
+                    # mark file as broken
+                    has_error = True
+                    # but don't interrupt parsing
+                    continue
 
-                group = Group.objects.get_or_create(name=group_name, semestr=1, field_of_study='INF', number=1)[0]
+                try:
+                    group = Group.objects.get(name__iexact=group_name, semestr=1, field_of_study='INF')
+                except Group.DoesNotExist:
+                    group = Group.objects.create(name=group_name, semestr=1, field_of_study='INF')
                 
-                # check if user is already in group
+                #group, created = Group.objects.get_or_create(name__iexact=group_name, semestr=1, field_of_study='INF')
+
+                # omit unchanged groups
                 if group in profile.groups.all():
                     continue
 
+                # if everything looks good update group
                 profile.update_group(group, group_prefix)
+
+        if has_error:
+            # if form file has errors rollback transation
+            transaction.savepoint_rollback(sid)
+            messages.success(self.request, "Operacja przerwana!")
+        else:
+            transaction.savepoint_commit(sid)
+            messages.success(self.request, "Zaimportowano!")
 
         return super(ImportStudentsView, self).form_valid(form)
 
