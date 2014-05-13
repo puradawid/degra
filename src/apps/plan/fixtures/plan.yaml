@@ -14,7 +14,7 @@
     type: 'PS'
     name: 'PS1'
     field_of_study: 'INF'
-    semestr: 1
+    semestr: 2
 
 - model: plan.group
   pk: 3
@@ -50,7 +50,16 @@
     type: 'PS'
     name: 'PS1'
     field_of_study: 'INF'
-    semestr: 2
+    semestr: 1
+
+- model: plan.group
+  pk: 7
+  fields:
+    number: 2
+    type: 'PS'
+    name: 'PS2'
+    field_of_study: 'INF'
+    semestr: 1
 
 - model: plan.post
   pk: 1
@@ -155,3 +164,14 @@
     course: 2
     teacher: 2
     group: 6
+
+- model: plan.lesson
+  pk: 7
+  fields:
+    start_hour: 8
+    duration: 2
+    day_of_week: 4
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 7

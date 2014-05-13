@@ -1,0 +1,36 @@
+- model: accounts.Account
+  pk: 1
+  fields:
+    index_number: "87954"
+    groups: [1, 6]
+
+- model: accounts.Account
+  pk: 1
+  fields:
+    index_number: "0000"
+    groups: [1, 6]
+
+- model: accounts.StudentTransfer
+  pk: 1
+  fields:
+    account: "87954"
+    origin: 6
+    target: 7
+
+- model: plan.note
+  pk: 1
+  fields:
+    title: 'This is my first test note'
+    content: 'Well i want to create a new note so i am doing it right now' 
+    author: "87954"
+    created: "2014-04-21 12:00+02:00"
+    lesson: 2
+
+- model: plan.note
+  pk: 2
+  fields:
+    title: 'My second note'
+    content: 'Dear diary, I wont pass' 
+    author: "87954"
+    created: "2014-04-21 12:00+02:00"
+    lesson: 7
