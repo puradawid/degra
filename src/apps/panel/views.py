@@ -15,6 +15,9 @@ from django.views.generic.base import TemplateView
 import xml.etree.cElementTree as etree
 import re
 from django.core.exceptions import ValidationError
+from apps.plan.modeldir.teacher import Teacher
+from apps.plan.modeldir.course import Course
+from apps.plan.modeldir.lesson import Lesson
 
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
@@ -27,41 +30,35 @@ class ImportStudentsView(FormView):
     def form_valid(self, form):
         uploaded_file = form.cleaned_data['file']
         rows = list(csv.reader(uploaded_file))
-        
+
         for row in rows:
             index_number = row[0]
-            
+
             profile = Account.objects.get_or_create(index_number=index_number)[0]
 
             for group_name in row[1:]:    
                 m = re.search('[a-zA-Z-]+(?!=\d)', group_name)
                 if m:
-                    group_type = m.group()
+                    group_prefix = m.group()
                 else:
                     raise ValidationError('Not a valid group name!')
 
                 group = Group.objects.get_or_create(name=group_name, semestr=1, field_of_study='INF', number=1)[0]
-    
+                
                 # check if user is already in group
                 if group in profile.groups.all():
                     continue
-    
-                # check if user is already in such type of group
-                try:
-                    profile.groups.filter(name__regex='^%s' % group_type).delete()
-                except Group.DoesNotExist:
-                    pass
-                
-                profile.groups.add(group)
+
+                profile.update_group(group, group_prefix)
 
         return super(ImportStudentsView, self).form_valid(form)
 
-class ImportGroupsView(TemplateView):
+class ImportPlanView(TemplateView):
     template_name = 'panel/import_groups.html'
     
     def get_context_data(self, **kwargs):
-        context = super(ImportGroupsView, self).get_context_data(**kwargs)
-        with open('grupy.xml') as xmlfile:
+        context = super(ImportPlanView, self).get_context_data(**kwargs)
+        with open('plan.xml') as xmlfile:
             xmldata = xmlfile.read()
             count = import_groups_from_xml(xmldata)
             context['count'] = count
@@ -104,31 +101,6 @@ class EditNews(UpdateView):
     def get_success_url(self):
         return reverse('add_news')
 
-def import_students_from_csv(csvfile):
-    """
-        Import students objects from csvfile. Accepts file object as parameter (open file). Return dictionary with 'count' and 'errors' keys
-        :param csvfile: file
-        :returns count: dictionary - key 'count': int, key 'messages': list of strings
-    """
-    students_reader = csv.reader(csvfile)
-    result = {'count': 0, 'errors': []}
-    for row in students_reader:
-        if User.objects.filter(username=row['Indeks']).exists() == False:
-            user = User.objects.create(username=row['Indeks'])
-            password = User.objects.make_random_password()
-            user.set_password(password)
-            user.save()
-            account = Account.objects.create(user=user)
-            try:
-                group = Group.objects.get(name=row['Grupa'])
-                account.groups.add(group)
-            except Group.DoesNotExist:
-                result['errors'].append('Grupa ' + row['Grupa'] + ' nie istnieje w bazie')
-                
-            account.save()
-            result['count'] += 1
-    return result
-
 def import_groups_from_xml(xmldata):
     """
         Import groups from xmldata (file or webservice). Accepts string with xml data as parameter. Return number of imported groups.
@@ -137,11 +109,24 @@ def import_groups_from_xml(xmldata):
     """
     count = 0
     xml_tree = etree.XML(xmldata)
-    for group in xml_tree.iter('grupa'):
-        name = group.find('nazwa').text
-        type = group.find('typ').text
-        g = Group.objects.create(name=name, type=type)
-        g.save()
+    for lesson in xml_tree.iter('lesson'):
+        course_name = lesson.find('name').text
+        field = lesson.find('field').text
+        semestr = int(lesson.find('semestr').text)
+        start_hour = lesson.find('start_hour').text
+        duration = lesson.find('duration').text
+        day_of_week = lesson.find('day_of_week').text
+        type = lesson.find('type').text
+        group_name = lesson.find('group').text
+        teacher_name = lesson.find('teacher').find('name').text
+        teacher_surname = lesson.find('teacher').find('surname').text
+        teacher_email = lesson.find('teacher').find('email').text
+        
+        teacher = Teacher.objects.get_or_create(name=teacher_name, surname=teacher_surname, email=teacher_email)[0]
+        course = Course.objects.get_or_create(name=course_name)[0]
+        group = Group.objects.get_or_create(name=group_name, field_of_study=field, semestr=semestr)[0]
+        lesson = Lesson.objects.get_or_create(start_hour=start_hour, duration=duration, day_of_week=day_of_week, type=type, group=group, course=course, teacher=teacher)
+
         count += 1
         
     return count
