@@ -36,18 +36,16 @@ class ImportStudentsView(FormView):
             
             # get or create account with current index number
             profile, created = Account.objects.get_or_create(pk=index_number)
-            
-            print Account.objects.filter(pk__iexact="123").query
 
             # iterate over all user groups from file
             # 1st cell is index number
             for group_name in row[1:]:
                 
+                # group name convention -> upper case
+                group_name = group_name.upper()
+                
                 # check if group has proper name PrefixNumber, eg. PS1    
-                m = re.search('^[a-zA-Z-]+(?=\d+$)', group_name)
-                if m:
-                    group_prefix = m.group()
-                else:
+                if not re.match('^[a-zA-Z-]+\d+$', group_name):
                     # we have bad item over here
                     messages.error(self.request, "{0} posiada niepoprawna grupe {1}".format(index_number, group_name))
                     # mark file as broken
@@ -55,25 +53,21 @@ class ImportStudentsView(FormView):
                     # but don't interrupt parsing
                     continue
 
-                try:
-                    group = Group.objects.get(name__iexact=group_name, semestr=1, field_of_study='INF')
-                except Group.DoesNotExist:
-                    group = Group.objects.create(name=group_name, semestr=1, field_of_study='INF')
-                
-                #group, created = Group.objects.get_or_create(name__iexact=group_name, semestr=1, field_of_study='INF')
+                group, created = Group.objects.get_or_create(name=group_name, semestr=1, field_of_study='INF')
 
                 # omit unchanged groups
                 if group in profile.groups.all():
                     continue
 
                 # if everything looks good update group
-                profile.update_group(group, group_prefix)
+                profile.update_group(group)
 
         if has_error:
             # if form file has errors rollback transation
             transaction.savepoint_rollback(sid)
             messages.success(self.request, "Operacja przerwana!")
         else:
+            # otherwise commit it
             transaction.savepoint_commit(sid)
             messages.success(self.request, "Zaimportowano!")
 
@@ -84,7 +78,7 @@ class ImportPlanView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super(ImportPlanView, self).get_context_data(**kwargs)
-        with open('plan.xml') as xmlfile:
+        with open('src/plan.xml') as xmlfile:
             xmldata = xmlfile.read()
             count = import_groups_from_xml(xmldata)
             context['count'] = count
@@ -133,26 +127,45 @@ def import_groups_from_xml(xmldata):
         :param xmldata: string
         :returns count: int
     """
+
     count = 0
     xml_tree = etree.XML(xmldata)
-    for lesson in xml_tree.iter('lesson'):
-        course_name = lesson.find('name').text
-        field = lesson.find('field').text
-        semestr = int(lesson.find('semestr').text)
-        start_hour = lesson.find('start_hour').text
-        duration = lesson.find('duration').text
-        day_of_week = lesson.find('day_of_week').text
-        type = lesson.find('type').text
-        group_name = lesson.find('group').text
-        teacher_name = lesson.find('teacher').find('name').text
-        teacher_surname = lesson.find('teacher').find('surname').text
-        teacher_email = lesson.find('teacher').find('email').text
-        
-        teacher = Teacher.objects.get_or_create(name=teacher_name, surname=teacher_surname, email=teacher_email)[0]
-        course = Course.objects.get_or_create(name=course_name)[0]
-        group = Group.objects.get_or_create(name=group_name, field_of_study=field, semestr=semestr)[0]
-        lesson = Lesson.objects.get_or_create(start_hour=start_hour, duration=duration, day_of_week=day_of_week, type=type, group=group, course=course, teacher=teacher)
-
-        count += 1
+    
+    # setup transation in case of errors
+    with transaction.atomic():
+        for lesson in xml_tree.iter('lesson'):
+            course_name = lesson.find('name').text
+            field = lesson.find('field').text.upper()
+            semestr = int(lesson.find('semestr').text)
+            start_hour = lesson.find('start_hour').text
+            duration = lesson.find('duration').text
+            day_of_week = lesson.find('day_of_week').text
+            type = lesson.find('type').text
+            group_name = lesson.find('group').text.upper()
+            teacher_name = lesson.find('teacher').find('name').text
+            teacher_surname = lesson.find('teacher').find('surname').text
+            teacher_email = lesson.find('teacher').find('email').text
+    
+            teacher = Teacher.objects.get_or_create(name=teacher_name, surname=teacher_surname, email=teacher_email)[0]
+            course = Course.objects.get_or_create(name=course_name)[0]
+            group = Group.objects.get_or_create(name=group_name, field_of_study=field, semestr=semestr)[0]
+            
+            # type, group and course determine certain lesson
+            lesson, created = Lesson.objects.get_or_create(type=type, group=group, course=course, defaults={'start_hour':start_hour, 'duration':duration, 'day_of_week':day_of_week, 'type':type, 'teacher':teacher})
+    
+            if created:
+                count += 1
+            else:
+                # TODO:
+                #    - changed flag
+                #    - better way to process update
+                
+                # if lesson is not created it needs to be updated 
+                lesson.start_hour = start_hour
+                lesson.duration = duration
+                lesson.day_of_week = day_of_week
+                lesson.type = type
+                lesson.teacher = teacher
+                lesson.save()
         
     return count

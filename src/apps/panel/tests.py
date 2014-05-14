@@ -67,3 +67,4 @@ class ImportStudentViewTestCase(WebTest):
         self.assertTrue(Group.objects.filter(name="PS2").exists())
         self.assertTrue(Account.objects.get(pk="88042").groups.filter(name="PS2").exists())
         self.assertFalse(Account.objects.get(pk="88042").groups.filter(name="PS3").exists())
+        self.assertTrue(Group.objects.filter(name="PS3").exists())

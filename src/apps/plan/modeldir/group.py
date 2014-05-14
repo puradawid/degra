@@ -15,3 +15,8 @@ class Group(models.Model):
 
     def __unicode__(self):
         return "{0} - {1}{2}".format(self.name, self.field_of_study, self.semestr)
+
+    def save(self, *args, **kwargs):
+        # group name should be uppercase
+        self.name = self.name.upper()
+        super(Group, self).save(*args, **kwargs)

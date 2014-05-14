@@ -15,27 +15,50 @@ class Account(models.Model):
     def __unicode__(self):
         return self.index_number
     
-    def update_group(self, group, group_prefix):
-        # check if user is already in such type of group
-        #try:
-        self.groups.filter(name__regex='^%s' % group_prefix).delete()
-        #except Group.DoesNotExist:
-        #    pass
+    def update_group(self, group):
+        # verify group name
+        m = re.search('^[a-zA-Z-]+(?=\d+$)', group.name)
+        if m:
+            group_prefix = m.group()
+        else:
+            raise Exception('Not a valid group')
+        
+        try:
+            # fix transfers
+            
+            # find old group
+            old_group = self.groups.get(name__regex='^%s' % group_prefix)
+            # find transfers from old group
+            transfers = StudentTransfer.objects.filter(origin__group=old_group)
 
+            for transfer in transfers:
+                # if transferred lesson is in new group remove transfer
+                if transfer.target.group == group:
+                    transfer.delete()
+                else:
+                    # attach origin to lesson from new group
+                    transfer.origin = Lesson.objects.get(course=transfer.origin.course, type=transfer.origin.type, group=group)
+                    
+        except Group.DoesNotExist:
+            pass
+        
+        # check if user is already in such type of group
+        if self.groups.filter(name__regex='^%s' % group_prefix).exists():
+            self.groups.remove(self.groups.get(name__regex='^%s' % group_prefix))
+        
+        # finally add new group
         self.groups.add(group)
-        #self.groups.save()
 
     def get_plan(self):
         # get transfer list
         transfer_list = StudentTransfer.objects.filter(account=self)
 
         # include transferred lessons and exclude origin lessons
-        lesson_list = Lesson.objects.filter(Q(group__in=self.groups.all()) | Q(id__in=transfer_list.values_list('target', flat=True)), ~Q(id__in=transfer_list.values_list('origin', flat=True)))
-        
+        lesson_list = Lesson.objects.filter(Q(group__in=self.groups.all()) | Q(pk__in=transfer_list.values_list('target', flat=True)), ~Q(id__in=transfer_list.values_list('origin', flat=True)))
+
         return lesson_list
         
     def make_transfer(self, old_lesson, new_lesson):
-        
         # check if transferred lessons are same
         if old_lesson == new_lesson:
             raise Exception('Transferred lessons are same!')
@@ -48,12 +71,16 @@ class Account(models.Model):
         if new_lesson in self.get_plan():
             raise Exception('User is already attending to the new lessen')
 
-        # check if transferred lessons have the same course
+        # check if transfer is within same course, RW->RW
         if old_lesson.course != new_lesson.course:
             raise Exception('Lessons have different courses!')
+        
+        # check if transfer is within same type, eg PS->PS
+        if old_lesson.type != new_lesson.type:
+            raise Exception('Lessons have different types!')
 
         try:
-            # check if lesson is already transfered
+            # check if lesson is already transferred
             transfer = StudentTransfer.objects.get(target=old_lesson, account=self)
             
             # if transfer exists origin is transfer origin, l1 -1> l2 -2> l3
@@ -71,9 +98,13 @@ class Account(models.Model):
 
 def create_profile(sender, created, instance, **kwargs):
     if created:
+        
+        # TODO:
+        #     - staff accounts
+        
         m = re.search('(?!=[a-zA-Z])\d+$', instance.username)
         if m:
-            print m.group()
+            # attach account to created user
             account, acc_created = Account.objects.get_or_create(pk=m.group())
             account.user = instance
             account.save()
