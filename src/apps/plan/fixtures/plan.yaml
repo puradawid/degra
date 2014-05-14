@@ -1,8 +1,6 @@
 - model: plan.group 
   pk: 1
   fields:
-    number: 1
-    type: 'CW'
     name: 'CW1'
     field_of_study: 'INF'
     semestr: 1
@@ -10,17 +8,13 @@
 - model: plan.group
   pk: 2
   fields:
-    number: 1
-    type: 'PS'
     name: 'PS1'
     field_of_study: 'INF'
-    semestr: 1
+    semestr: 2
 
 - model: plan.group
   pk: 3
   fields:
-    number: 1
-    type: 'LAB'
     name: 'LAB1'
     field_of_study: 'INF'
     semestr: 1
@@ -28,8 +22,6 @@
 - model: plan.group
   pk: 4
   fields:
-    number: 1
-    type: 'PS'
     name: 'RW1'
     field_of_study: 'INF'
     semestr: 0
@@ -37,8 +29,6 @@
 - model: plan.group
   pk: 5
   fields:
-    number: 1
-    type: 'WYK'
     name: 'WYK1'
     field_of_study: 'INF'
     semestr: 1
@@ -46,36 +36,24 @@
 - model: plan.group
   pk: 6
   fields:
-    number: 1
-    type: 'PS'
     name: 'PS1'
     field_of_study: 'INF'
-    semestr: 2
+    semestr: 1
 
-- model: plan.note
-  pk: 1
+- model: plan.group
+  pk: 7
   fields:
-    title: 'This is my first test note'
-    content: 'Well i want to create a new note so i am doing it right now' 
-    author: 1
-    created: "2014-04-21 12:00+02:00"
+    name: 'PS2'
+    field_of_study: 'INF'
+    semestr: 1
 
-- model: plan.note
-  pk: 1
+- model: plan.group
+  pk: 8
   fields:
-    title: 'This is my first test note'
-    content: 'Well i want to create a new note so i am doing it right now' 
-    author: 2
-    created: "2014-04-21 12:00+02:00"
-
-- model: plan.note
-  pk: 2
-  fields:
-    title: 'My second note'
-    content: 'Dear diary, I wont pass' 
-    author: 2
-    created: "2014-04-21 12:00+02:00"
-
+    name: 'PS3'
+    field_of_study: 'INF'
+    semestr: 1
+  
 - model: plan.post
   pk: 1
   fields:
@@ -180,31 +158,24 @@
     teacher: 2
     group: 6
 
-
-- model: accounts.usertolesson
-  pk: 1
+- model: plan.lesson
+  pk: 7
   fields:
-    user: 2
-    lesson: 1
-    notes: [1]
+    start_hour: 8
+    duration: 2
+    day_of_week: 4
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 7
 
-- model: accounts.usertolesson
-  pk: 2
+- model: plan.lesson
+  pk: 8
   fields:
-    user: 2
-    lesson: 2
-    notes: [2]
-
-- model: accounts.usertolesson
-  pk: 3
-  fields:
-    user: 2
-    lesson: 3
-    notes: []
-
-- model: accounts.usertolesson
-  pk: 4
-  fields:
-    user: 1
-    lesson: 2
-    notes: []
+    start_hour: 14
+    duration: 2
+    day_of_week: 5
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 8

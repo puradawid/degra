@@ -1,0 +1,62 @@
+<plan>
+	<lesson>
+		<name>Technical innovations</name>
+		<field>INF</field>
+		<semestr>1</semestr>
+		<start_hour>8</start_hour>
+		<duration>2</duration>
+		<day_of_week>1</day_of_week>
+		<type>PS</type>
+		<group>PS1</group>
+		<teacher>
+			<name>Antonio</name>
+			<surname>Facaldo</surname>
+			<email>antonio.facaldo@example.org</email>
+		</teacher>
+	</lesson>
+	<lesson>
+		<name>Technical innovations</name>
+		<field>INF</field>
+		<semestr>1</semestr>
+		<start_hour>10</start_hour>
+		<duration>2</duration>
+		<day_of_week>4</day_of_week>
+		<type>CW</type>
+		<group>CW1</group>
+		<teacher>
+			<name>Antonio</name>
+			<surname>Facaldo</surname>
+			<email>antonio.facaldo@example.org</email>
+		</teacher>
+	</lesson>
+	<lesson>
+		<name>Embedded systems</name>
+		<field>INF</field>
+		<semestr>1</semestr>
+		<start_hour>8</start_hour>
+		<duration>2</duration>
+		<day_of_week>3</day_of_week>
+		<type>PS</type>
+		<group>PS1</group>
+		<teacher>
+			<name>Antonio</name>
+			<surname>Banderas</surname>
+			<email>antonio.banderas@example.org</email>
+		</teacher>
+	</lesson>
+	<lesson>
+		<name>Rzeczywistość wirtualna</name>
+		<field>INF</field>
+		<semestr>0</semestr>
+		<start_hour>14</start_hour>
+		<duration>2</duration>
+		<day_of_week>3</day_of_week>
+		<type>PS</type>
+		<group>RW1</group>
+		<teacher>
+			<name>Antonio</name>
+			<surname>Banderas</surname>
+			<email>antonio.banderas@example.org</email>
+		</teacher>
+	</lesson>
+</plan>
