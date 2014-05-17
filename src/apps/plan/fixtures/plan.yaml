@@ -134,7 +134,7 @@
     type: 'PS'
     course: 2
     teacher: 2
-    group: 4
+    group: 3
 
 - model: plan.lesson
   pk: 5
@@ -179,3 +179,25 @@
     course: 2
     teacher: 2
     group: 8
+
+- model: plan.lesson
+  pk: 9
+  fields:
+    start_hour: 16
+    duration: 2
+    day_of_week: 3
+    type: 'CW'
+    course: 1
+    teacher: 1
+    group: 2
+
+- model: plan.lesson
+  pk: 10
+  fields:
+    start_hour: 14
+    duration: 2
+    day_of_week: 5
+    type: 'PS'
+    course: 1
+    teacher: 1
+    group: 3

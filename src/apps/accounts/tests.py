@@ -121,3 +121,23 @@ class TransferTestCase(TestCase):
         
         self.assertRaises(Exception, user1.profile.make_transfer, lesson1, lesson3)
         
+    def test_transfer_twice(self):
+        user1 = User.objects.get(pk=1)
+        lesson1 = Lesson.objects.get(pk=6) # attending, g6
+        lesson2 = Lesson.objects.get(pk=4) # g7
+        lesson3 = Lesson.objects.get(pk=7) # g8
+        
+        user1.profile.make_transfer(lesson1, lesson2)
+        
+        self.assertIn(lesson2, user1.profile.get_plan())
+        self.assertNotIn(lesson1, user1.profile.get_plan())
+        self.assertNotIn(lesson3, user1.profile.get_plan())
+        self.assertTrue(StudentTransfer.objects.filter(origin=lesson1, target=lesson2, account=user1.profile).exists())
+        
+        user1.profile.make_transfer(lesson2, lesson3)
+        
+        self.assertIn(lesson3, user1.profile.get_plan())
+        self.assertNotIn(lesson1, user1.profile.get_plan())
+        self.assertNotIn(lesson2, user1.profile.get_plan())
+        self.assertTrue(StudentTransfer.objects.filter(origin=lesson1, target=lesson3, account=user1.profile).count(), 1)
+        self.assertFalse(StudentTransfer.objects.filter(target=lesson2, account=user1.profile).exists())

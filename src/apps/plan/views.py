@@ -1,7 +1,13 @@
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views.generic.list import ListView
+
 from apps.accounts.models import Account
 from apps.plan.models import Lesson, Post, Note
-from django.db.models import Q
-from django.views.generic.list import ListView
+
 
 def add_notes(profile, plan):
     # TODO:
@@ -59,6 +65,7 @@ class PlanView(ListView):
         # find all lessons from given groups
         q = Q(group__name__in=groups, group__semestr=semestr, group__field_of_study=field)
         
+
         if "electives" in self.kwargs:
             # include elective lessons
             electives = [x.upper() for x in self.kwargs['electives'].split('/')]
@@ -80,5 +87,27 @@ class PlanView(ListView):
             'posts' : Post.objects.all().order_by('-created')
         })
         return context
+
+class LessonPlan(ListView):
+    template_name = 'plan/lesson_plan.html'
+    context_object_name = 'lesson_list'
+
+    def get_queryset(self):
+        try:
+            return self.request.user.profile.get_plan().get(pk = self.kwargs['pk']).get_available_transfers()
+        except Lesson.DoesNotExist:
+            return None
+
+    def post(self, request, *args, **kwargs):
+        
+        try:
+            old_lesson = Lesson.objects.get(pk=kwargs['pk'])
+            new_lesson = Lesson.objects.get(pk=request.POST['new_lesson'])
     
-    
+            self.request.user.profile.make_transfer(old_lesson, new_lesson)
+            
+            return HttpResponseRedirect(reverse('show_my_plan'))
+        except Exception as e:
+            messages.error(request, e)
+        
+        return self.get(request, *args, **kwargs)  

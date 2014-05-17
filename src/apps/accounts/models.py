@@ -69,7 +69,7 @@ class Account(models.Model):
 
         # check if user is not attending new lesson yet - shouldn't ever happen
         if new_lesson in self.get_plan():
-            raise Exception('User is already attending to the new lessen')
+            raise Exception('User is already attending to the new lesson!')
 
         # check if transfer is within same course, RW->RW
         if old_lesson.course != new_lesson.course:
@@ -82,13 +82,15 @@ class Account(models.Model):
         try:
             # check if lesson is already transferred
             transfer = StudentTransfer.objects.get(target=old_lesson, account=self)
-            
-            # if transfer exists origin is transfer origin, l1 -1> l2 -2> l3
-            # that means after second transfer new transfer should point to origin lesson l1 -> l3 not l2 -> l3
-            origin = transfer.origin
             # if new lesson is same as origin lesson remove transfer
-            if new_lesson == origin:
+            if new_lesson == transfer.origin:
                 transfer.delete()
+                return
+            else:
+                # if transfer exists origin is transfer origin, l1 -1> l2 -2> l3
+                # that means after second transfer new transfer should point to origin lesson l1 -> l3 not l2 -> l3
+                transfer.target = new_lesson
+                transfer.save()
                 return
             
         except StudentTransfer.DoesNotExist:

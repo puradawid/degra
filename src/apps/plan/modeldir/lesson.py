@@ -33,3 +33,6 @@ class Lesson(models.Model):
 
     def __unicode__(self):
         return str(self.course) + " " + self.group.name
+    
+    def get_available_transfers(self):
+        return Lesson.objects.filter(course=self.course, type=self.type).exclude(pk=self.pk)

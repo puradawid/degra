@@ -49,6 +49,11 @@
 			</div>
 		</div>
 		<div class="container">
+			{% for message in messages %}
+			    <div class="alert alert-danger">
+				<strong>{{ message|escape }}</strong>
+			    </div>
+			{% endfor %}
 			{% block content %}{% endblock %}
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
