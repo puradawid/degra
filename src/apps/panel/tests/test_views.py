@@ -5,8 +5,9 @@ from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 
-from apps.plan.models import Post, Group
+from apps.plan.models import Post, Group, Lesson
 from apps.accounts.models import Account
+from apps.panel.forms import ImportCSVForm
 
 
 class AddNewsTest(TestCase):
@@ -73,4 +74,14 @@ class ImportStudentViewTestCase(WebTest):
         self.assertTrue(Account.objects.get(pk="88042").groups.filter(name="PS2").exists())
         self.assertFalse(Account.objects.get(pk="88042").groups.filter(name="PS3").exists())
         self.assertTrue(Group.objects.filter(name="PS3").exists())
+
+class ImportCSVFormTestCase(TestCase):
+    def setUp(self):
+        pass
+    
+    def test_invalid_form(self):
+        """Submit invalid data"""
         
+        # Submit empty form
+        form = ImportCSVForm()
+        self.assertFalse(form.is_valid())
