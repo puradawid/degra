@@ -3,7 +3,7 @@
                <span class="rodzaj">{{ lesson.type }}</span>
                <span class="godzina">Start:{{ lesson.start_hour }}:15 Koniec po: {{ lesson.duration }} h</span>
                <span class="sala">WI-12B</span>
-               <span class="edytuj_przedmiot"><a href="#" data-toggle="modal" data-target="#edycja">(E)</a></span>
+               <span class="edytuj_przedmiot"><a href='{% url "lesson_transfer" lesson.pk %}'>(E)</a></span>
 <span class="notatka_add_przedmiot"><a href="#" data-toggle="modal" data-target="#note-Add">(A)</a></span>
 {% if lesson.notes.all %}
 

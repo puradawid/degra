@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}Plan zajęć{% endblock %}
+
+{% block content %}
+<div id="plan" class="visible-md visible-lg hidden-xs hidden-sm">
+   <h1>Plan zajęć</h1>
+   <div class="rozklad">
+		{% for lesson in lesson_list %}
+
+		<div class="zajecia od-{{ lesson.start_hour }} czas-{{ lesson.duration }}h type-{{ lesson.type }} day-{{ lesson.day_of_week }}">
+		               <span class="przedmiot">{{ lesson.course }}</span>
+		               <span class="rodzaj">{{ lesson.type }}</span>
+		               <span class="godzina">Start:{{ lesson.start_hour }}:15 Koniec po: {{ lesson.duration }} h</span>
+		               <span class="sala">WI-12B</span>
+		               
+		<form method="POST">
+		{% csrf_token %}
+			<input type="hidden" value="{{ lesson.pk }}" name="new_lesson">
+			<input id="submit" type="submit" value="OK">
+		</form>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

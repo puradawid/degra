@@ -1,11 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
+from apps.plan.models import Lesson
+from apps.accounts.models import Account
 
 class Note(models.Model):
     title = models.CharField(max_length = 255)
     created = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(Account)
+    lesson = models.ForeignKey(Lesson)
     
     class Meta:
         app_label = "plan"

@@ -9,3 +9,5 @@ pep8==1.5.1
 pyflakes==0.8.1
 pylint==1.1.0
 wsgiref==0.1.2
+WebTest==2.0.15
+django-webtest==1.7.7

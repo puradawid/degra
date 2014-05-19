@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from apps.plan.models import Post
 from django import forms
 from django.forms.models import ModelForm
-from apps.plan.models import Group, Post
 
 class ImportCSVForm(forms.Form):
+    #semestr = forms.IntegerField(label='Semestr')
+    #field_of_study = forms.ChoiceField(label='Kierunek', choices=Group.FIELD_CHOICES)
     file = forms.FileField(label='Plik .csv')
     
     def clean(self, *args, **kwargs):
