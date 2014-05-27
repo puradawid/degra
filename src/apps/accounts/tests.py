@@ -1,9 +1,12 @@
-from apps.accounts.models import StudentTransfer
+from model_mommy import mommy
+
+from apps.accounts.models import Account, StudentTransfer
 from apps.plan.models import Lesson
 from django.contrib.auth.models import User
 from django.core.management import call_command
 from django.test import TestCase
 from apps.plan.modeldir.group import Group
+from django.core.exceptions import ValidationError
 
 class TransferTestCase(TestCase):
     
@@ -141,3 +144,37 @@ class TransferTestCase(TestCase):
         self.assertNotIn(lesson2, user1.profile.get_plan())
         self.assertTrue(StudentTransfer.objects.filter(origin=lesson1, target=lesson3, account=user1.profile).count(), 1)
         self.assertFalse(StudentTransfer.objects.filter(target=lesson2, account=user1.profile).exists())
+
+class AccountTest(TestCase):
+
+    def setUp(self):
+        self.account = mommy.make(Account, index_number="0001")
+    
+    def test_unicode(self):
+        """ Requirement - __unicode__ method should include index number of object. """
+        self.assertTrue(self.account.index_number in unicode(self.account))
+        
+    def test_get_plan(self):
+        """ Assign account into group with one lesson and check get_plan content. """
+        group = mommy.make(Group)
+        lesson = mommy.make(Lesson)
+        self.account.groups.add(group)
+        lesson.group = group
+        lesson.save()
+        group.save()
+        self.account.save()
+        plan = self.account.get_plan()
+        self.assertIn(lesson, Lesson.objects.all())
+        self.assertIn(lesson, plan)
+        
+    def test_create_wrong_profile(self):
+        """ Create profile with wrong index_number field. """
+        try:
+            new_account = mommy.make(Account, index_number = "abcdee1123")
+            new_user = mommy.make(User)
+        except ValidationError: # index number doesn't meet requirements
+            return              # so it should throw ValidationError
+        self.assertTrue(False)
+    
+    
+    
