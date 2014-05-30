@@ -1,0 +1,39 @@
+<!-- Modal -->
+<div class="modal fade" id="note-{{ lesson.pk }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-note">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel"> Notatka <a href="{% url 'lesson_transfer' lesson.pk %}" class="btn btn-primary btn-xs">Zmień grupę</a></h4>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+					<div class="modal-body">
+
+						<div class="form-group">
+							<div class="col-lg-12">
+								<input type="text" class="form-control" id="inputLogin" placeholder="Tytuł">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<textarea class="form-control" placeholder="Treść" row="6"></textarea>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							Zamknij
+						</button>
+						<button type="button" class="btn btn-primary">
+							Zapisz
+						</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

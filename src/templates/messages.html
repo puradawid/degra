@@ -1,0 +1,19 @@
+{% if messages %}
+	{% for message in messages %}
+		 {% if message.tags %}
+			 <div class="bs-component">
+		      <div class="alert alert-dismissable alert-{{ message.tags }}">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		      	{{ message }}
+		      </div>
+		    </div>
+		 {% else %}
+		 <div class="bs-component">
+		      <div class="alert alert-dismissable alert-danger">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		      	{{ message }}
+		      </div>
+		    </div>
+		 {% endif %}
+	{% endfor %}
+{% endif %}

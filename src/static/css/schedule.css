@@ -1,0 +1,189 @@
+.table-wrapper {
+	display: table;
+	height: 100%;
+	width: 100%;
+}
+
+.schedule-row {
+	background-clip:content-box;
+	background-color: #f0f0f0;
+	display: inline-block;
+	float: left;
+	font-size: 12px;
+	height: 50px !important;
+  	padding: 1px;
+  	text-align: center;
+  	width: 100%;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+}
+
+.schedule-row a {
+	text-decoration: none;
+}
+
+.schedule-row p {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.schedule-head {
+	font-size: 12px;
+	height: 20px;
+}
+
+.schedule-head .schedule-col-1, .schedule-head .schedule-col-2, .schedule-head .schedule-col-15 {
+	background-color: #f7f7f7;
+	font-weight: bold;
+	height: 30px;
+	line-height: 28px;
+	min-height: 30px;
+	vertical-align: middle;
+}
+
+.schedule-row:before, .schedule-row:after {
+	
+}
+
+.schedule-row:after {
+	clear: both;
+}
+
+.schedule-col-1 {
+	width: 6.666666666666667%;
+}
+
+.schedule-col-2 {
+	width: 13.33333333333333%;
+}
+
+.schedule-col-13 {
+	width: 86.66666666666667%;
+}
+
+.schedule-col-14 {
+	width: 93.33333333333333%;
+}
+
+.schedule-col-15 {
+	width: 100%;
+}
+
+.schedule-col-1, .schedule-col-2, .schedule-col-13, .schedule-col-14, .schedule-col-15 {
+	float: left;
+	min-height: 1px;
+}
+
+*, *:after, *:before {
+  
+}
+
+.lesson {
+	color: #fff;
+	display: table;
+	position: relative;
+	width: 100%;
+	z-index: 10;
+}
+
+.lesson p {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+	width: 100%;
+}
+
+.lesson a {
+	text-align: center;
+	width: 100%;
+}
+
+.lesson span {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.lesson span form {
+	margin-top: 5px;
+}
+
+.PS {
+	background-color: #267afe;
+}
+
+.WYK {
+	background-color: #018a18;
+}
+
+.LAB {
+	background-color: #e74c3c;
+}
+
+.CW {
+	background-color: #f39c12;
+}
+
+.hours-1 {
+	height: 48px;
+}
+
+.hours-2 {
+	height: 98px;
+}
+
+.hours-3 {
+	height: 148px;
+}
+
+.hours-4 {
+	height: 198px;
+}
+
+
+/* Mobile */
+.schedule-mobile .schedule-row {
+	background-color: #f0f0f0;
+	background-clip:content-box;
+	height: 50px;
+  	padding: 1px;
+  	text-align: center;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+}
+
+.schedule-mobile .schedule-head {
+	background-color: #f0f0f0;
+	background-clip:content-box;
+	font-size: 14px;
+	font-weight: bold;
+	height: 30px;
+	padding: 1px;
+  	text-align: center;
+	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+}
+
+.schedule-mobile .schedule-col-1, .schedule-mobile .schedule-col-2, .schedule-mobile .schedule-col-13, .schedule-mobile .schedule-col-14, .schedule-mobile .schedule-col-15 {
+	background: none;
+	background-clip:content-box;
+	float: left;
+	height: auto;
+  	padding: 0px;
+  	text-align: center;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	box-sizing: border-box;
+}
+
+.carousel-inner {
+	float: left;
+	min-height: 550px;
+}
+
+
+.lesson form {
+	display: inline-block;
+}

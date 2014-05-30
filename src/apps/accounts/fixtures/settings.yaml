@@ -1,7 +1,7 @@
 - model: accounts.Account
   pk: 1
   fields:
-    index_number: "0001"
+    index_number: "88040"
     groups: [1, 6]
 
 - model: accounts.Account

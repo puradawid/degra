@@ -1,64 +1,81 @@
 <!DOCTYPE html>
-{% load staticfiles %}
-<html lang="en">
+<html lang="pl">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>{% block title %}{% endblock %} | Degra 2.0</title>
 		<meta name="description" content="">
-		<meta name="author" content="">
-		<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-		<link rel="stylesheet" href="{% static "css/style.css" %}">
-		<title>{% block title %}{% endblock %} | Degra</title>
+		<meta name="author" content="Adrian">
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0">
+		
+		{% load staticfiles %}
+		
+		<link rel="shortcut icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" media="screen">
+		<link rel="stylesheet" href="{% static 'css/bootstrap-extend.css' %}" media="screen">
+		<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/schedule.css' %}">
+
 	</head>
 
 	<body>
-		<div class="navbar navbar-inverse">
-			<div class="container">
+
+		<header class="navbar navbar-default">
+			<div class="container-fluid">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+					<a href="/" class="navbar-brand">Degra 2.0</a>
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+						<span class="icon-bar"> </span>
+						<span class="icon-bar"> </span>
+						<span class="icon-bar"> </span>
 					</button>
-					<a class="navbar-brand" href="/">Degra 2.0</a>
 				</div>
-				<div class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						{% if user.is_authenticated == False %}
-						<li class="logowanie.html">
-							<a href="{% url "login" %}">Zaloguj</a>
-						</li>
-						<li>
-							<a href="rejestracja.html">Zarejestruj</a>
-						</li>
-						{% else %}
-						<li style="float: right;">
-							<a href="{% url "logout" %}">Wyloguj</a>
-						</li>
-						{% endif %}
-						<li>
-							<a href="plan.html">Plan Zajęć</a>
-						</li>
-						<li>
-							<a href="{% url "panel" %}">Panel Dziekanatu</a>
-						</li>
-					</ul>
-				</div><!--/.nav-collapse -->
+
+				<nav>
+					<div class="navbar-collapse collapse" id="navbar-main">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="#"><i class="fa fa-calendar-o"></i> Plan zajęć</a>
+							</li>
+							<li>
+								<a href="#"><i class="fa fa-question-circle"></i> Konsultacje</a>
+							</li>
+							<li>
+								<a href="{% url 'panel' %}"><i class="fa fa-edit"></i> Panel Dziekanatu</a>
+							</li>
+						</ul>
+
+						<ul class="nav navbar-nav navbar-right">
+							{% if not user.is_authenticated %}
+								<li>
+									<a href="{% url 'login' %}"><i class="fa fa-user"></i> Logowanie</a>
+								</li>
+							{% else %}
+								<li>
+									<a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Wyloguj</a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</nav>
 			</div>
-		</div>
-		<div class="container">
-			{% for message in messages %}
-			    <div class="alert alert-danger">
-				<strong>{{ message|escape }}</strong>
-			    </div>
-			{% endfor %}
+		</header>
+
+		<div class="container-fluid">
 			{% block content %}{% endblock %}
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="{% static "js/bootstrap.min.js" %}"></script>
-		<script src="{% static 'js/file_upload_helper.js' %}"></script>
-	</body>
 
+		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script>
+			$('#id_username').tooltip({'trigger':'focus', 'title': 'Wprowadź swój login z sytemu LDAP (wixxxxx)'});
+			$('#id_password').tooltip({'trigger':'focus', 'title': 'Wprowadź swoje hasło z systemu LDAP'});
+		</script>
+		{% block scripts %}{% endblock %}
+	</body>
 </html>

@@ -76,7 +76,7 @@ class PlanView(ListView):
         if self.request.user.is_authenticated():
             # add notes for logged user
             lesson_list = add_notes(self.request.user.profile, lesson_list)
-
+        
         return lesson_list
 
     def get_context_data(self, **kwargs):

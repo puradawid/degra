@@ -10,4 +10,4 @@ class Teacher(models.Model):
         app_label = "plan"
     
     def __unicode__(self):
-        return self.name + self.surname
+        return self.degree + " " + self.name + " " + self.surname
