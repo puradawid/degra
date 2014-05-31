@@ -152,7 +152,10 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP = {
 "is_superuser": "cn=superusers,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",    
 # "is_active": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",     
 # "ou=employees,ou=people,ou=FCS,o=BUT,c=pl",     
-}    
+}
+
+AUTH_LDAP_BIND_DN = "uid=nawiaagent,ou=agents,ou=FCS,o=BUT,c=pl"
+AUTH_LDAP_BIND_PASSWORD = "Nawia2014"    
     
 AUTH_LDAP_ALWAYS_UPDATE_USER = True    
     
