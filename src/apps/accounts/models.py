@@ -9,6 +9,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
 import re
+from apps.notes.models import Note
 
 class Account(models.Model):
     index_number = models.CharField(primary_key=True, max_length=7, verbose_name = 'Numer indeksu')
@@ -81,6 +82,12 @@ class Account(models.Model):
         # check if transfer is within same type, eg PS->PS
         if old_lesson.type != new_lesson.type:
             raise Exception('Lessons have different types!')
+        
+        # update note
+        note = Note.objects.for_user(self.user).for_object(old_lesson).first()
+        if note is not None:
+            note.object_id = new_lesson.id
+            note.save()
 
         try:
             # check if lesson is already transferred

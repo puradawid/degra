@@ -1,7 +1,7 @@
 - model: auth.user
   pk: 1
   fields:
-    username: "wi88040"
+    username: "wi0000"
     password: "5f4dcc3b5aa765d61d8327deb882cf99"
     email: "wi0000@example.com"
 
