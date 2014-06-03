@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from apps.plan.modeldir.group import Group
 from apps.plan.modeldir.lesson import Lesson
 from django.contrib.auth.models import User
@@ -8,9 +11,9 @@ from django.db.models.signals import post_save
 import re
 
 class Account(models.Model):
-    index_number = models.CharField(primary_key=True, max_length=7)
-    user = models.OneToOneField(User, blank=True, null=True, related_name='profile')
-    groups = models.ManyToManyField(Group)
+    index_number = models.CharField(primary_key=True, max_length=7, verbose_name = 'Numer indeksu')
+    user = models.OneToOneField(User, blank=True, null=True, related_name='profile', verbose_name = 'Użytkownik')
+    groups = models.ManyToManyField(Group, verbose_name = 'Grupy')
     
     def __unicode__(self):
         return self.index_number
@@ -97,6 +100,10 @@ class Account(models.Model):
             origin = old_lesson
         
         StudentTransfer.objects.create(account=self, origin=origin, target=new_lesson)
+        
+    class Meta:
+        verbose_name = 'Konto'
+        verbose_name_plural = 'Konta'
 
 def create_profile(sender, created, instance, **kwargs):
     if created:
