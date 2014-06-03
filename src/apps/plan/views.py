@@ -1,19 +1,22 @@
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 
 from apps.accounts.models import Account
-from apps.plan.models import Lesson, Post, Note
+from apps.plan.models import Lesson, Post
+from apps.notes.models import Note
+from apps.notes.forms import NoteForm
+from django.contrib.contenttypes.models import ContentType
 
-
-def add_notes(profile, plan):
-    # TODO:
-    #    - find better way to handle notes
+def add_notes(user, plan):
+    all_notes = Note.objects.for_user(user)
+    
     for lesson in plan:
-        lesson.notes = Note.objects.filter(lesson=lesson, author=profile)
+        lesson.note = all_notes.for_object(lesson).first()
+
     return plan
 
 class PersonalizedPlanView(ListView):
@@ -37,8 +40,8 @@ class PersonalizedPlanView(ListView):
 
         if self.request.user.is_authenticated():
             # add notes for logged user
-            lesson_list = add_notes(self.request.user.profile, lesson_list)
-
+            lesson_list = add_notes(self.request.user, lesson_list)
+            
         return lesson_list
 
     def get_context_data(self, **kwargs):
@@ -46,9 +49,25 @@ class PersonalizedPlanView(ListView):
         context.update({
             # extra data goes here
             # 'key' : value
+            'noteform' : NoteForm(),
             'posts' : Post.objects.all().order_by('-created')
         })
         return context
+    
+    def post(self, request, *args, **kwargs):
+        
+        form = NoteForm(request.POST)
+        
+        if form.is_valid():
+            lesson = Lesson.objects.get(pk=form.cleaned_data['lesson'])
+            type = ContentType.objects.get_for_model(lesson)
+            (note, created) = Note.objects.get_or_create(author=auth.get_user(request), content_type=type, object_id=lesson.id, defaults={'content': form.cleaned_data['content']})
+            if not created:
+                note.content = form.cleaned_data['content']
+                note.save()
+            print note
+        
+        return redirect('.')  
 
 class PlanView(ListView):
     template_name = 'plan/plan.html'
@@ -75,7 +94,7 @@ class PlanView(ListView):
         
         if self.request.user.is_authenticated():
             # add notes for logged user
-            lesson_list = add_notes(self.request.user.profile, lesson_list)
+            lesson_list = add_notes(self.request.user, lesson_list)
         
         return lesson_list
 

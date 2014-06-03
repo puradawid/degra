@@ -8,27 +8,23 @@
 				</button>
 				<h4 class="modal-title" id="myModalLabel"> Notatka <a href="{% url 'lesson_transfer' lesson.pk %}" class="btn btn-primary btn-xs">Zmień grupę</a></h4>
 			</div>
-			<form class="form-horizontal">
+			<form class="form-horizontal" method="POST"> {% csrf_token %}
 				<fieldset>
 					<div class="modal-body">
-
+						
 						<div class="form-group">
 							<div class="col-lg-12">
-								<input type="text" class="form-control" id="inputLogin" placeholder="Tytuł">
+								<textarea class="form-control" id="{{ noteform.content.auto_id }}" placeholder="Treść" row="6" name="{{ noteform.content.name }}">{{ lesson.note.content }}</textarea>
 							</div>
 						</div>
-						<div class="form-group">
-							<div class="col-lg-12">
-								<textarea class="form-control" placeholder="Treść" row="6"></textarea>
-							</div>
-						</div>
+						<input type="hidden" id="{{ noteform.lesson.auto_id }}" value="{{ lesson.pk }}" name="{{ noteform.lesson.name }}"/>
 
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">
 							Zamknij
 						</button>
-						<button type="button" class="btn btn-primary">
+						<button type="submit" class="btn btn-primary">
 							Zapisz
 						</button>
 					</div>
