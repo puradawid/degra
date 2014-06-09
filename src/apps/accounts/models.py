@@ -11,14 +11,19 @@ from django.db.models.signals import post_save
 import re
 from apps.notes.models import Note
 
+## Represent user profile
 class Account(models.Model):
+    ## Index number of related user
     index_number = models.CharField(primary_key=True, max_length=7, verbose_name = 'Numer indeksu')
+    ## Related user
     user = models.OneToOneField(User, blank=True, null=True, related_name='profile', verbose_name = 'Użytkownik')
+    ## List of groups user belongs
     groups = models.ManyToManyField(Group, verbose_name = 'Grupy')
     
     def __unicode__(self):
         return self.index_number
     
+    ## Updates user group membership  
     def update_group(self, group):
         # verify group name
         m = re.search('^[a-zA-Z-]+(?=\d+$)', group.name)
@@ -53,6 +58,9 @@ class Account(models.Model):
         # finally add new group
         self.groups.add(group)
 
+    ## Filters user plan depending on group membership
+    #
+    # @return lesson list
     def get_plan(self):
         # get transfer list
         transfer_list = StudentTransfer.objects.filter(account=self)
@@ -61,7 +69,8 @@ class Account(models.Model):
         lesson_list = Lesson.objects.filter(Q(group__in=self.groups.all()) | Q(pk__in=transfer_list.values_list('target', flat=True)), ~Q(id__in=transfer_list.values_list('origin', flat=True)))
 
         return lesson_list
-        
+    
+    ## Makes transfer from one lesson to another 
     def make_transfer(self, old_lesson, new_lesson):
         # check if transferred lessons are same
         if old_lesson == new_lesson:
@@ -112,6 +121,7 @@ class Account(models.Model):
         verbose_name = 'Konto'
         verbose_name_plural = 'Konta'
 
+## Creates user profile after creating user object
 def create_profile(sender, created, instance, **kwargs):
     if created:
         
@@ -129,7 +139,11 @@ def create_profile(sender, created, instance, **kwargs):
 
 post_save.connect(create_profile, User, dispatch_uid='create_profile')
 
+## Represent single transfer
 class StudentTransfer(models.Model):
+    ## Related user profile
     account = models.ForeignKey(Account)
+    ## Origin lesson
     origin = models.ForeignKey(Lesson, related_name='origin')
+    ## Target lesson
     target = models.ForeignKey(Lesson, related_name='target')

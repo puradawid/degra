@@ -25,6 +25,7 @@ class ImportStudentsView(FormView):
     form_class = ImportCSVForm
     success_url = '.'
     
+    ## Process csv file
     def form_valid(self, form):
         rows = list(csv.reader(form.cleaned_data['file']))
         

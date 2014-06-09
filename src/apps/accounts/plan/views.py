@@ -11,10 +11,6 @@ from apps.notes.models import Note
 from apps.notes.forms import NoteForm
 from django.contrib.contenttypes.models import ContentType
 
-## "Glue" user notes to given plan
-# @param user The user object.
-# @param plan Plan list.
-# @return lesson list
 def add_notes(user, plan):
     all_notes = Note.objects.for_user(user)
     
@@ -23,12 +19,10 @@ def add_notes(user, plan):
 
     return plan
 
-## Home page view for a logged user and for /i/index
 class PersonalizedPlanView(ListView):
     template_name = 'plan/plan.html'
     context_object_name = 'lesson_list'
     
-    ## @return QuerySet of user lessons + notes if logged in. 
     def get_queryset(self):
 
         if 'index_number' in self.kwargs:
@@ -41,16 +35,15 @@ class PersonalizedPlanView(ListView):
             # otherwise show default plan
             return Lesson.objects.filter(group__name__in=["CW1", "PS1"], group__field_of_study='INF', group__semestr=1)
 
-        ## get plan for given profile
+        # get plan for given profile
         lesson_list = profile.get_plan()
 
         if self.request.user.is_authenticated():
-            ## add notes for logged user
+            # add notes for logged user
             lesson_list = add_notes(self.request.user, lesson_list)
             
         return lesson_list
 
-    ## @return Context with Note form and list of recent posts
     def get_context_data(self, **kwargs):
         context = super(PersonalizedPlanView, self).get_context_data(**kwargs)
         context.update({
@@ -61,7 +54,6 @@ class PersonalizedPlanView(ListView):
         })
         return context
     
-    ## Parses NoteForm.
     def post(self, request, *args, **kwargs):
         
         form = NoteForm(request.POST)
@@ -77,12 +69,10 @@ class PersonalizedPlanView(ListView):
         
         return redirect('.')  
 
-## Home page view for a not logged user and for group lessons
 class PlanView(ListView):
     template_name = 'plan/plan.html'
     context_object_name = 'lesson_list'
-
-    ## @return QuerySet of selected group lessons
+    
     def get_queryset(self):
         
         field = self.kwargs['field'].upper()
@@ -94,6 +84,7 @@ class PlanView(ListView):
         # find all lessons from given groups
         q = Q(group__name__in=groups, group__semestr=semestr, group__field_of_study=field)
         
+
         if "electives" in self.kwargs:
             # include elective lessons
             electives = [x.upper() for x in self.kwargs['electives'].split('/')]
@@ -116,19 +107,16 @@ class PlanView(ListView):
         })
         return context
 
-## Transfer selection view.
 class LessonPlan(ListView):
     template_name = 'plan/lesson_plan.html'
     context_object_name = 'lesson_list'
 
-    ## @return QuerySet of lessons that user can transfer 
     def get_queryset(self):
         try:
             return self.request.user.profile.get_plan().get(pk = self.kwargs['pk']).get_available_transfers()
         except Lesson.DoesNotExist:
-            return redirect('.')
+            return None
 
-    ## Process transfer form
     def post(self, request, *args, **kwargs):
         
         try:

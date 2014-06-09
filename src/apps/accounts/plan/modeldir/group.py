@@ -1,19 +1,12 @@
 from django.db import models
 
-## Represent single group
-#
-# Every group is described by field of study, semester, and name.
 class Group(models.Model):
-    ## Available fields of study
     FIELD_CHOICES = (
         ('INF', 'Informatyka'),
         ('MAT', 'Matematyka'),
     )
-    
     field_of_study = models.CharField(max_length = 3, choices = FIELD_CHOICES, verbose_name = 'Kierunek')
-    ## Group semestr
     semestr = models.IntegerField(verbose_name = 'Semestr')
-    ## Group name, eg. PS1
     name = models.CharField(max_length = 15, verbose_name = 'Nazwa')
 
     class Meta:
@@ -25,9 +18,7 @@ class Group(models.Model):
     def __unicode__(self):
         return "{0} - {1}{2}".format(self.name, self.field_of_study, self.semestr)
 
-    ## Change group name to uppercase before saving to database
-    #
     def save(self, *args, **kwargs):
-        ## Group name should be uppercase
+        # group name should be uppercase
         self.name = self.name.upper()
         super(Group, self).save(*args, **kwargs)

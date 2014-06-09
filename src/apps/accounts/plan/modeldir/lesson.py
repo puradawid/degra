@@ -6,9 +6,6 @@ from course import Course
 from teacher import Teacher
 from group import Group
 
-## Represent single lesson
-#
-# Every lesson is related to teacher, course and group.
 class Lesson(models.Model):
     TYPE_CHOICES = (
         ('PS', 'Pracownia specjalistyczna'),
@@ -25,20 +22,12 @@ class Lesson(models.Model):
         (6, 'Sobota'),
         (7, 'Niedziela'),
     )
-
-    ## Start hour represent 'real' hour from 1 to 24
     start_hour = models.IntegerField(verbose_name = 'Godzina rozpoczęcia')
-    ## Lesson duration in hours
     duration = models.IntegerField(verbose_name = 'Czas trwania')
-    ## Day of the week that lesson take place (1-monday)
     day_of_week = models.IntegerField(choices = DAY_CHOICES, verbose_name = 'Dzień tygodnia')
-    ## Type of the lesson, eg. LAB (laboratory)
     type = models.CharField(max_length = 3, choices = TYPE_CHOICES, verbose_name = 'Typ')
-    ## Course related to lesson
     course = models.ForeignKey(Course, verbose_name = 'Kurs')
-    ## Lecturer
     teacher = models.ForeignKey(Teacher, verbose_name = 'Nauczyciel')
-    ## Group in which lesson takes place
     group = models.ForeignKey(Group, verbose_name = 'Grupa')
     
     class Meta:
@@ -50,7 +39,5 @@ class Lesson(models.Model):
     def __unicode__(self):
         return str(self.course) + " " + self.group.name
     
-    ## Find avaible lesson transfers in same course scope. 
-    # @return QuerySet with avaible lesson transfers
     def get_available_transfers(self):
         return Lesson.objects.filter(course=self.course, type=self.type).exclude(pk=self.pk)

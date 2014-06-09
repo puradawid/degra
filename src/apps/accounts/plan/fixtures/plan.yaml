@@ -1,0 +1,203 @@
+- model: plan.group 
+  pk: 1
+  fields:
+    name: 'CW1'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 2
+  fields:
+    name: 'PS1'
+    field_of_study: 'INF'
+    semestr: 2
+
+- model: plan.group
+  pk: 3
+  fields:
+    name: 'LAB1'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 4
+  fields:
+    name: 'RW1'
+    field_of_study: 'INF'
+    semestr: 0
+
+- model: plan.group
+  pk: 5
+  fields:
+    name: 'WYK1'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 6
+  fields:
+    name: 'PS1'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 7
+  fields:
+    name: 'PS2'
+    field_of_study: 'INF'
+    semestr: 1
+
+- model: plan.group
+  pk: 8
+  fields:
+    name: 'PS3'
+    field_of_study: 'INF'
+    semestr: 1
+  
+- model: plan.post
+  pk: 1
+  fields:
+    title: 'First post here!'
+    content: 'Today all classes are dissmised! (whatever it means )'
+    created: '2014-04-21 12:00+02:00'
+
+- model: plan.course
+  pk: 1
+  fields:
+    name: 'Technical innovations'
+
+- model: plan.course
+  pk: 2
+  fields:
+    name: 'Embedded systems'
+
+- model: plan.course
+  pk: 3
+  fields:
+    name: 'Rzeczywistość wirtualna'
+
+- model: plan.teacher
+  pk: 1
+  fields:
+    name: 'Antonio'
+    surname: 'Facaldo'
+    degree: 'PhD'
+    email: 'antonio.facaldo@example.org'
+
+- model: plan.teacher
+  pk: 2
+  fields:
+    name: 'Antonio'
+    surname: 'Banderas'
+    degree: 'none'
+    email: 'antonio.banderas@example.org'
+
+- model: plan.lesson
+  pk: 1
+  fields:
+    start_hour: 8
+    duration: 2
+    day_of_week: 1
+    type: 'PS'
+    course: 1
+    teacher: 1
+    group: 2
+
+- model: plan.lesson
+  pk: 2
+  fields:
+    start_hour: 10
+    duration: 2
+    day_of_week: 2
+    type: 'CW'
+    course: 1
+    teacher: 1
+    group: 1
+
+- model: plan.lesson
+  pk: 3
+  fields:
+    start_hour: 11
+    duration: 2
+    day_of_week: 3
+    type: 'LAB'
+    course: 2
+    teacher: 2
+    group: 3
+
+- model: plan.lesson
+  pk: 4
+  fields:
+    start_hour: 8
+    duration: 2
+    day_of_week: 3
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 3
+
+- model: plan.lesson
+  pk: 5
+  fields:
+    start_hour: 13
+    duration: 2
+    day_of_week: 3
+    type: 'WYK'
+    course: 2
+    teacher: 2
+    group: 5
+
+- model: plan.lesson
+  pk: 6
+  fields:
+    start_hour: 13
+    duration: 3
+    day_of_week: 1
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 6
+
+- model: plan.lesson
+  pk: 7
+  fields:
+    start_hour: 8
+    duration: 2
+    day_of_week: 4
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 7
+
+- model: plan.lesson
+  pk: 8
+  fields:
+    start_hour: 14
+    duration: 2
+    day_of_week: 5
+    type: 'PS'
+    course: 2
+    teacher: 2
+    group: 8
+
+- model: plan.lesson
+  pk: 9
+  fields:
+    start_hour: 16
+    duration: 2
+    day_of_week: 3
+    type: 'CW'
+    course: 1
+    teacher: 1
+    group: 2
+
+- model: plan.lesson
+  pk: 10
+  fields:
+    start_hour: 14
+    duration: 2
+    day_of_week: 5
+    type: 'PS'
+    course: 1
+    teacher: 1
+    group: 3

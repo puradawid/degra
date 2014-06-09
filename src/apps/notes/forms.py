@@ -6,5 +6,6 @@ class NoteForm(ModelForm):
     class Meta:
         model = Note
         fields=['content']
-        
+    
+    ## Lesson id field
     lesson = forms.CharField(widget=forms.HiddenInput())
