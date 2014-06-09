@@ -122,10 +122,11 @@ def create_profile(sender, created, instance, **kwargs):
         if m:
             # attach account to created user
             account, acc_created = Account.objects.get_or_create(pk=m.group())
-            account.user = instance
+            account.setUser(instance)
+            #account.user = instance
             account.save()
         else:
-            raise ValidationError('Not a valid index number!')        
+            raise ValidationError('Not a valid index number!')
 
 post_save.connect(create_profile, User, dispatch_uid='create_profile')
 
