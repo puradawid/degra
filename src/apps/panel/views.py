@@ -13,9 +13,13 @@ import csv
 import re
 import xml.etree.cElementTree as etree
 
+## Render deanery panel main page
+#
 class PanelView(TemplateView):
     template_name = 'panel/panel.html'
 
+## Responsible for handling importing students list from csv file
+#
 class ImportStudentsView(FormView):
     template_name = 'panel/import_students.html'
     form_class = ImportCSVForm
@@ -73,6 +77,8 @@ class ImportStudentsView(FormView):
 
         return super(ImportStudentsView, self).form_valid(form)
 
+## Responsible for handling importing lesson schedule from webservice
+#
 class ImportPlanView(TemplateView):
     template_name = 'panel/import_groups.html'
     
@@ -84,11 +90,16 @@ class ImportPlanView(TemplateView):
             context['count'] = count
         return context
 
+## Render and handle view for creating new post
+#
 class AddNews(CreateView):
     template_name = 'panel/add_news.html'
     form_class = NewsForm
     success_url = '.'
-
+    
+    ## Add list of created posts to current context
+    #
+    # @return contex with extra list of created posts
     def get_context_data(self, **kwargs):
         context = super(AddNews, self).get_context_data(**kwargs)
         context.update({
@@ -97,7 +108,9 @@ class AddNews(CreateView):
             'posts' : Post.objects.all().order_by('-created')
         })
         return context
-    
+
+## Render and handle view for deleting specified post
+#
 class DeleteNews(DeleteView):
     model = Post
     template_name = 'panel/delete_news.html'
@@ -105,10 +118,12 @@ class DeleteNews(DeleteView):
     def get_object(self, *args, **kwargs):
         obj = super(DeleteNews,self).get_object(*args,**kwargs)
         return obj
-    
+       
     def get_success_url(self):
         return reverse('add_news')
     
+## Render and handle view for update specified post
+#    
 class EditNews(UpdateView):
     model = Post
     template_name = 'panel/edit_news.html'   
@@ -121,6 +136,13 @@ class EditNews(UpdateView):
     def get_success_url(self):
         return reverse('add_news')
 
+## Handle xml data with informations about teachers, courses and groups.
+#
+# It's used to import schedule from external webservice
+# 
+# @param xmldata Data from file or external webservice
+# @return Number of created objects 
+# @todo Better way to process update
 def import_groups_from_xml(xmldata):
     """
         Import groups from xmldata (file or webservice). Accepts string with xml data as parameter. Return number of imported groups.

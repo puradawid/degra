@@ -1,5 +1,8 @@
 from django.db import models
 
+## Represent single group
+#
+# Every group is described by field of study, semester, and name.
 class Group(models.Model):
     FIELD_CHOICES = (
         ('INF', 'Informatyka'),
@@ -17,8 +20,10 @@ class Group(models.Model):
 
     def __unicode__(self):
         return "{0} - {1}{2}".format(self.name, self.field_of_study, self.semestr)
-
+    
+    ## Change group name to uppercase during saving to database
+    #
     def save(self, *args, **kwargs):
-        # group name should be uppercase
+        ## Group name should be uppercase
         self.name = self.name.upper()
         super(Group, self).save(*args, **kwargs)

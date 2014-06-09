@@ -3,6 +3,8 @@
 
 from django.db import models
 
+## Represent single post (news from deanery) model
+#
 class Post(models.Model):
     title = models.CharField(max_length = 255, verbose_name = 'Tytuł')
     content = models.TextField(verbose_name = 'Treść')

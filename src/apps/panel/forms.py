@@ -4,11 +4,17 @@ from apps.plan.models import Post
 from django import forms
 from django.forms.models import ModelForm
 
+## Form for importing students from csv file
+#
 class ImportCSVForm(forms.Form):
     #semestr = forms.IntegerField(label='Semestr')
     #field_of_study = forms.ChoiceField(label='Kierunek', choices=Group.FIELD_CHOICES)
     file = forms.FileField(label='Plik .csv')
     
+    ## Validate if uploaded file have csv format. If not raise ValidationError exception
+    #
+    # @return Cleander data with validated file extenstion
+    # @raise ValidationError if uploaded file is not csv file
     def clean(self, *args, **kwargs):
         """
             Expand clean method on validate file extension
@@ -20,7 +26,9 @@ class ImportCSVForm(forms.Form):
                 raise forms.ValidationError("Nieprawidlowy format pliku")
         
         return cleaned_data
-    
+
+## Form for add or edit post
+#    
 class NewsForm(ModelForm):
     class Meta:
         model = Post
