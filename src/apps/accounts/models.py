@@ -115,15 +115,11 @@ class Account(models.Model):
 def create_profile(sender, created, instance, **kwargs):
     if created:
         
-        # TODO:
-        #     - staff accounts
-        
         m = re.search('(?!=[a-zA-Z])\d+$', instance.username)
         if m:
             # attach account to created user
             account, acc_created = Account.objects.get_or_create(pk=m.group())
-            account.setUser(instance)
-            #account.user = instance
+            account.user = instance
             account.save()
         else:
             raise ValidationError('Not a valid index number!')

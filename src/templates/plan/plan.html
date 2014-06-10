@@ -42,9 +42,15 @@
 {% block scripts %}
 <script>
 	$(document).ready(function(){
-		{% for lesson in lesson_list %}
-			$('.{{ lesson.day_of_week }}-{{ lesson.start_hour | add:"-7" }}').append('<a href="#" data-toggle="modal" data-target="#note-{{ lesson.pk }}"><div class="lesson {{ lesson.type }} hours-{{ lesson.duration }}"><p>{{ lesson.course }}<br />{{ lesson.teacher }}</p></div></a>');
-		{% endfor %}
+		{% if clickable %}
+			{% for lesson in lesson_list %}
+				$('.{{ lesson.day_of_week }}-{{ lesson.start_hour | add:"-7" }}').append('<a href="#" data-toggle="modal" data-target="#note-{{ lesson.pk }}"><div class="lesson {{ lesson.type }} hours-{{ lesson.duration }}"><p>{{ lesson.course }}<br />{{ lesson.teacher }}</p></div></a>');
+			{% endfor %}
+		{% else %}
+			{% for lesson in lesson_list %}
+				$('.{{ lesson.day_of_week }}-{{ lesson.start_hour | add:"-7" }}').append('<div class="lesson {{ lesson.type }} hours-{{ lesson.duration }}"><p>{{ lesson.course }}<br />{{ lesson.teacher }}</p></div>');
+			{% endfor %}
+		{% endif %}
 	});
 </script>
 {% endblock %}

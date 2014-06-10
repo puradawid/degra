@@ -12,11 +12,12 @@ from django.views.generic.edit import DeleteView, CreateView, UpdateView
 import csv
 import re
 import xml.etree.cElementTree as etree
+from braces import views
 
-class PanelView(TemplateView):
+class PanelView(views.LoginRequiredMixin, views.StaffuserRequiredMixin, TemplateView):
     template_name = 'panel/panel.html'
 
-class ImportStudentsView(FormView):
+class ImportStudentsView(views.LoginRequiredMixin, views.StaffuserRequiredMixin, FormView):
     template_name = 'panel/import_students.html'
     form_class = ImportCSVForm
     success_url = '.'
@@ -73,7 +74,7 @@ class ImportStudentsView(FormView):
 
         return super(ImportStudentsView, self).form_valid(form)
 
-class ImportPlanView(TemplateView):
+class ImportPlanView(views.LoginRequiredMixin, views.StaffuserRequiredMixin, TemplateView):
     template_name = 'panel/import_groups.html'
     
     def get_context_data(self, **kwargs):
@@ -84,7 +85,7 @@ class ImportPlanView(TemplateView):
             context['count'] = count
         return context
 
-class AddNews(CreateView):
+class AddNews(views.LoginRequiredMixin, views.StaffuserRequiredMixin, CreateView):
     template_name = 'panel/add_news.html'
     form_class = NewsForm
     success_url = '.'
@@ -98,7 +99,7 @@ class AddNews(CreateView):
         })
         return context
     
-class DeleteNews(DeleteView):
+class DeleteNews(views.LoginRequiredMixin, views.StaffuserRequiredMixin, DeleteView):
     model = Post
     template_name = 'panel/delete_news.html'
     
@@ -109,7 +110,7 @@ class DeleteNews(DeleteView):
     def get_success_url(self):
         return reverse('add_news')
     
-class EditNews(UpdateView):
+class EditNews(views.LoginRequiredMixin, views.StaffuserRequiredMixin, UpdateView):
     model = Post
     template_name = 'panel/edit_news.html'   
     form_class = NewsForm

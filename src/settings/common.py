@@ -65,11 +65,16 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',                          
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
 
 ROOT_URLCONF = 'degra.urls'
 
 WSGI_APPLICATION = 'degra.wsgi.application'
+
+LOGIN_REDIRECT_URL = '.'
+
+LOGIN_URL = '/login'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -126,13 +131,13 @@ SERVER_EMAIL = EMAIL_HOST_USER
 
 # LDAP configuration     
 # http://pythonhosted.org/django-auth-ldap/     
-                
+
 # LDAP
 import ldap
-from libs.django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 AUTHENTICATION_BACKENDS = (    
-    'libs.django_auth_ldap.backend.LDAPBackend',    
+    'django_auth_ldap.backend.LDAPBackend',    
     'django.contrib.auth.backends.ModelBackend',    
 )
 AUTH_LDAP_SERVER_URI = "ldaps://ldap.wi.pb.edu.pl:10636"    
@@ -146,21 +151,14 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch("ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl"
 , "(objectClass=groupOfNames)"    )    
 
 AUTH_LDAP_USER_ATTR_MAP = {"email": "mail", "first_name": "givenName", "last_name": "sn"}
-AUTH_LDAP_PROFILE_ATTR_MAP = {"tytul": "title", "stanowisko":"employeeType"}     
 
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {    
-"is_staff": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",    
-"is_superuser": "cn=superusers,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
- #"is_active": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",     
-# "ou=employees,ou=people,ou=FCS,o=BUT,c=pl",     
-}
-
-AUTH_LDAP_PROFILE_FLAGS_BY_GROUP = {
-    "is_teacher": "cn=teachers,ou=groups,ou=FCS,o=BUT,c=pl",
+    "is_staff": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+    "is_superuser": "cn=superusers,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+     #"is_active": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+    # "ou=employees,ou=people,ou=FCS,o=BUT,c=pl",
 }
 
 AUTH_LDAP_ALWAYS_UPDATE_USER = True    
 
 AUTH_LDAP_MIRROR_GROUPS=True 
-
-AUTH_LDAP_FIND_GROUP_PERMS = True
