@@ -115,9 +115,6 @@ class Account(models.Model):
 def create_profile(sender, created, instance, **kwargs):
     if created:
         
-        # TODO:
-        #     - staff accounts
-        
         m = re.search('(?!=[a-zA-Z])\d+$', instance.username)
         if m:
             # attach account to created user
@@ -125,7 +122,7 @@ def create_profile(sender, created, instance, **kwargs):
             account.user = instance
             account.save()
         else:
-            raise ValidationError('Not a valid index number!')        
+            raise ValidationError('Not a valid index number!')
 
 post_save.connect(create_profile, User, dispatch_uid='create_profile')
 

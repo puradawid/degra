@@ -53,3 +53,8 @@ overflow: hidden;
     display: block;
 }
 
+
+li.admin-panel a {
+	color: #d62c1a !important;
+}
+

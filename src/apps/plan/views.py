@@ -10,6 +10,7 @@ from apps.plan.models import Lesson, Post
 from apps.notes.models import Note
 from apps.notes.forms import NoteForm
 from django.contrib.contenttypes.models import ContentType
+from braces import views
 
 def add_notes(user, plan):
     all_notes = Note.objects.for_user(user)
@@ -28,7 +29,7 @@ class PersonalizedPlanView(ListView):
         if 'index_number' in self.kwargs:
             # if user provide index number then select profile with that index number
             profile = Account.objects.get(index_number=self.kwargs['index_number'])
-        elif self.request.user.is_authenticated():
+        elif self.request.user.is_authenticated() and hasattr(self.request.user, 'profile'):
             # if user is logged in take his profile
             profile = self.request.user.profile
         else:
@@ -50,8 +51,10 @@ class PersonalizedPlanView(ListView):
             # extra data goes here
             # 'key' : value
             'noteform' : NoteForm(),
-            'posts' : Post.objects.all().order_by('-created')
+            'posts' : Post.objects.all().order_by('-created'),
+            'clickable' : self.request.user.is_authenticated() and hasattr(self.request.user, 'profile')
         })
+
         return context
     
     def post(self, request, *args, **kwargs):
@@ -92,10 +95,6 @@ class PlanView(ListView):
 
         lesson_list = Lesson.objects.filter(q)
         
-        if self.request.user.is_authenticated():
-            # add notes for logged user
-            lesson_list = add_notes(self.request.user, lesson_list)
-        
         return lesson_list
 
     def get_context_data(self, **kwargs):
@@ -103,11 +102,12 @@ class PlanView(ListView):
         context.update({
             # extra data goes here
             # 'key' : value
-            'posts' : Post.objects.all().order_by('-created')
+            'posts' : Post.objects.all().order_by('-created'),
+            'clickable' : False
         })
         return context
 
-class LessonPlan(ListView):
+class LessonPlan(views.LoginRequiredMixin, ListView):
     template_name = 'plan/lesson_plan.html'
     context_object_name = 'lesson_list'
 

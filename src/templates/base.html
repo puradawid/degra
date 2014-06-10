@@ -40,14 +40,21 @@
 					<div class="navbar-collapse collapse" id="navbar-main">
 						<ul class="nav navbar-nav">
 							<li>
-								<a href="#"><i class="fa fa-calendar-o"></i> Plan zajęć</a>
+								<a href="{% url 'show_group_plan' 'inf' '1' 'cw1' %}"><i class="fa fa-calendar-o"></i> Plan zajęć</a>
 							</li>
 							<li>
 								<a href="#"><i class="fa fa-question-circle"></i> Konsultacje</a>
 							</li>
-							<li>
-								<a href="{% url 'panel' %}"><i class="fa fa-edit"></i> Panel Dziekanatu</a>
-							</li>
+							{% if request.user.is_staff %}
+								<li>
+									<a href="{% url 'panel' %}"><i class="fa fa-edit"></i> Panel Dziekanatu</a>
+								</li>
+							{% endif %}
+							{% if request.user.is_superuser %}
+								<li class="admin-panel">
+									<a href="/admin"><i class="fa fa-user"></i> Panel administratora</a>
+								</li>
+							{% endif %}
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">

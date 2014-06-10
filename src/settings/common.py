@@ -65,11 +65,16 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',                          
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
 
 ROOT_URLCONF = 'degra.urls'
 
 WSGI_APPLICATION = 'degra.wsgi.application'
+
+LOGIN_REDIRECT_URL = '.'
+
+LOGIN_URL = '/login'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -126,38 +131,34 @@ SERVER_EMAIL = EMAIL_HOST_USER
 
 # LDAP configuration     
 # http://pythonhosted.org/django-auth-ldap/     
-                
-# LDAP     
-import ldap    
-from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, LDAPSearchUnion    
-    
+
+# LDAP
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+
 AUTHENTICATION_BACKENDS = (    
-'django_auth_ldap.backend.LDAPBackend',    
-'django.contrib.auth.backends.ModelBackend',    
-)    
-    
+    'django_auth_ldap.backend.LDAPBackend',    
+    'django.contrib.auth.backends.ModelBackend',    
+)
 AUTH_LDAP_SERVER_URI = "ldaps://ldap.wi.pb.edu.pl:10636"    
-    
-AUTH_LDAP_BIND_DN = ""    
-AUTH_LDAP_BIND_PASSWORD = ""    
+
+AUTH_LDAP_BIND_DN = "uid=nawiaagent,ou=agents,ou=FCS,o=BUT,c=pl"    
+AUTH_LDAP_BIND_PASSWORD = "Nawia2014"    
 AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=people,ou=FCS,o=BUT,c=pl", ldap.SCOPE_SUBTREE, "(uid=%(user)s)")    
-    
+
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()    
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch("ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl", ldap.SCOPE_SUBTREE
 , "(objectClass=groupOfNames)"    )    
-    
-AUTH_LDAP_USER_ATTR_MAP = {"email": "mail", "first_name": "givenName", "last_name": "sn"}     
-    
+
+AUTH_LDAP_USER_ATTR_MAP = {"email": "mail", "first_name": "givenName", "last_name": "sn"}
+
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {    
-"is_staff": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",    
-"is_superuser": "cn=superusers,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",    
-# "is_active": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",     
-# "ou=employees,ou=people,ou=FCS,o=BUT,c=pl",     
+    "is_staff": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+    "is_superuser": "cn=superusers,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+     #"is_active": "cn=admins,ou=wierkgroups,ou=groups,ou=FCS,o=BUT,c=pl",
+    # "ou=employees,ou=people,ou=FCS,o=BUT,c=pl",
 }
 
-AUTH_LDAP_BIND_DN = "uid=nawiaagent,ou=agents,ou=FCS,o=BUT,c=pl"
-AUTH_LDAP_BIND_PASSWORD = "Nawia2014"    
-    
 AUTH_LDAP_ALWAYS_UPDATE_USER = True    
-    
+
 AUTH_LDAP_MIRROR_GROUPS=True 
